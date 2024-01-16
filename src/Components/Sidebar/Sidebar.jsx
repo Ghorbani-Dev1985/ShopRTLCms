@@ -51,7 +51,7 @@ function Sidebar() {
     <aside className='sticky top-14 py-4 h-[calc(100vh-50px)] min-h-screen'>
      <Box className="flex flex-col gap-4">
         <Box className="flex flex-col items-center gap-5 mt-5">
-            <img src='../../src/assets/Images/github.png' alt='ghorbani-dev.ir' className='object-fill rounded-3xl size-25' />
+            <img src='../../src/assets/Images/github.png' alt='ghorbani-dev.ir' className='object-fill rounded-3xl size-20' />
             <h1 className='text-white font-DanaBold text-xl'>محمد قربانی</h1>
             <p className='text-gray-400'>توسعه دهنده فرانت اند</p>
         </Box>
