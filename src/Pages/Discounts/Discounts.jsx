@@ -6,7 +6,7 @@ function Discounts() {
   return (
     <div>
          <ComponentsTitle titleText=" تخفیف‌ها"/>
-      <Alert severity="error">هیچ کد تخفیفی تاکنون تعریف نگردیده است</Alert>
+      <Alert severity="info">هیچ کد تخفیفی تاکنون تعریف نگردیده است</Alert>
     </div>
   )
 }

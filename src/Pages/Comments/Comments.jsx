@@ -6,7 +6,7 @@ function Comments() {
   return (
     <div>
          <ComponentsTitle titleText=" کامنت‌ها"/>
-      <Alert severity="error">هیچ کامنتی تاکنون ثبت نگردیده است</Alert>
+      <Alert severity="info">هیچ کامنتی تاکنون ثبت نگردیده است</Alert>
     </div>
   )
 }
