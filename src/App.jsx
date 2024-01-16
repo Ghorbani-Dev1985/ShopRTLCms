@@ -12,9 +12,9 @@ function App() {
      <Toaster />
      
      <main className=''>   
-        <div className='grid grid-cols-12 gap-4'>
+        <div className='grid grid-cols-12'>
          <div className='col-span-2'><Sidebar /></div>
-         <div className='col-span-10 p-16 m-3 rounded-3xl bg-white'>{router}</div>
+         <div className='col-span-10 p-16 my-6 ml-4 rounded-3xl bg-white'>{router}</div>
         </div>
      </main>
     </>
