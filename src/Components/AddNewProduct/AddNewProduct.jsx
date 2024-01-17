@@ -1,11 +1,11 @@
-import { Alert, Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import React from "react";
 import RtlProvider from "../common/RtlProvider/RtlProvider";
 import { DoneAll } from "@mui/icons-material";
 
 function AddNewProduct() {
   return (
-    <div className="space-y-9">
+    <>
         <RtlProvider>
           <fieldset className="border border-gray-200 rounded-lg p-3">
             <legend className="font-DanaBold text-xl my-6 mx-10 px-3">افزودن محصول جدید</legend>
@@ -96,8 +96,7 @@ function AddNewProduct() {
       </form>
       </fieldset>
         </RtlProvider>
-        <Alert severity="info">هیچ محصولی تاکنون تعریف نگردیده است</Alert>
-    </div>
+    </>
   );
 }
 
