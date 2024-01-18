@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { DataGrid ,faIR} from '@mui/x-data-grid';
 import { DeleteOutlineOutlined, Edit, FindInPage } from '@mui/icons-material';
 import { Button } from '@mui/material';
@@ -135,7 +135,7 @@ function ProductsTable() {
       checkboxSelection
       />
   </div>
-  <DetailsModal />
+  <DetailsModal rows={rows}/>
       </>
   )
 }

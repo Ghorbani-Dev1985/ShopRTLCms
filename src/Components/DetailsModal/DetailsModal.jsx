@@ -1,20 +1,36 @@
 import React from 'react'
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useDetailsModal } from '../../Contexts/DetailsModalContext';
 import { Close } from '@mui/icons-material';
+import { DataGrid , faIR} from '@mui/x-data-grid';
 
-
+const columns = [
+    { field: 'lastName', headerName: ' نام محصول', width: 260 },
+    {
+      field: 'fullName',
+      headerName: 'قیمت ',
+      width: 90,
+      valueGetter: (params) =>
+        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    },
+    {
+      field: 'fdf',
+      headerName: ' محبوبیت',
+      width: 70,
+      valueGetter: (params) =>
+        `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+    },
+   
+  ];
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-function DetailsModal() {
+function DetailsModal({rows}) {
     const {showDetailsModal , setShowDetailsModal} = useDetailsModal()
     console.log(showDetailsModal)
   return (
@@ -30,14 +46,16 @@ function DetailsModal() {
            <p onClick={() => setShowDetailsModal(false)} className='text-rose-500 cursor-pointer'><Close /></p> 
     </DialogTitle>
     <DialogContent>
-      <DialogContentText id="alert-dialog-slide-description">
-        Let Google help apps determine location. This means sending anonymous
-        location data to Google, even when no apps are running.
-      </DialogContentText>
+    <div style={{ width: '100%' }}>
+    <DataGrid
+      rows={rows}
+      columns={columns}
+      localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
+      hideFooterPagination
+      hideFooter
+      />
+  </div>
     </DialogContent>
-    <DialogActions>
-     
-    </DialogActions>
   </Dialog>
   )
 }
