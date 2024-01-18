@@ -1,13 +1,14 @@
 import React from 'react'
 import { DataGrid ,faIR} from '@mui/x-data-grid';
 import { DeleteOutlineOutlined, Edit, FindInPage } from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { useDetailsModal } from '../../Contexts/DetailsModalContext';
 import DetailsModal from '../DetailsModal/DetailsModal';
 import { useEditModal } from '../../Contexts/EditModalContext';
 import EditModal from '../EditModal/EditModal'
+import RtlProvider from '../common/RtlProvider/RtlProvider';
 
 
 
@@ -137,7 +138,93 @@ function ProductsTable() {
   </div>
   <DetailsModal rows={rows}/>
    <EditModal>
-    sdds
+   <RtlProvider>
+   <form className='relative z-20'>
+          <Box className="flex flex-wrap justify-between gap-5">
+            <TextField
+              autoComplete="off"
+              label={
+                <span>
+                  نام محصول <span className="text-rose-500 text-sm">*</span>
+                </span>
+              }
+              variant="outlined"
+              size="small"
+            />
+            <TextField
+              autoComplete="off"
+              type="number"
+              label={
+                <span>
+                  قیمت <span className="text-rose-500 text-sm">*</span>
+                </span>
+              }
+              variant="outlined"
+              size="small"
+            />
+            <TextField
+              autoComplete="off"
+              type="number"
+              label={
+                <span>
+                  موجودی <span className="text-rose-500 text-sm">*</span>
+                </span>
+              }
+              variant="outlined"
+              size="small"
+            />
+            <TextField
+              autoComplete="off"
+              label={
+                <span>
+                  لینک عکس <span className="text-rose-500 text-sm">*</span>
+                </span>
+              }
+              variant="outlined"
+              size="small"
+            />
+            <TextField
+              autoComplete="off"
+              type="number"
+              label={
+                <span>
+                  میزان محبوبیت <span className="text-rose-500 text-sm">*</span>
+                </span>
+              }
+              variant="outlined"
+              size="small"
+            />
+            <TextField
+              autoComplete="off"
+              type="number"
+              label={
+                <span>
+                  میزان فروش <span className="text-rose-500 text-sm">*</span>
+                </span>
+              }
+              variant="outlined"
+              size="small"
+            />
+            <TextField
+              autoComplete="off"
+              type="number"
+              label={
+                <span>
+                  تعداد رنگ بندی
+                  <span className="text-rose-500 text-sm">*</span>
+                </span>
+              }
+              variant="outlined"
+              size="small"
+            />
+          </Box>
+            <Box className="w-full flex justify-end items-center my-4">
+              <Button variant="contained" startIcon={<Edit />}>
+                ثبت اطلاعات جدید
+              </Button>
+            </Box>
+      </form>
+      </RtlProvider>
     </EditModal>
       </>
   )

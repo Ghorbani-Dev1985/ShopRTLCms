@@ -5,6 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { useEditModal } from '../../Contexts/EditModalContext';
 import { Close } from '@mui/icons-material';
+import { Box } from '@mui/material';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -21,10 +22,10 @@ function EditModal({children}) {
     onClose={() => setShowEditModal(false)}
     aria-describedby="alert-dialog-slide-description"
   >
-    <DialogTitle className='flex-between bg-slate-100 mb-6'>
-            <p className='flex flex-1 justify-center font-DanaBold'> ویرایش </p>
+    <Box className='flex-between bg-slate-100 mb-8 p-5'>
+            <p className='flex flex-1 justify-center font-DanaBold text-2xl'> ویرایش </p>
            <p onClick={() => setShowEditModal(false)} className='text-rose-500 cursor-pointer flex-center'><Close /></p> 
-    </DialogTitle>
+    </Box>
     <DialogContent>
        {children}
     </DialogContent>

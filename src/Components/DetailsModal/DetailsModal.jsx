@@ -41,7 +41,7 @@ function DetailsModal({rows}) {
     onClose={() => setShowDetailsModal(false)}
     aria-describedby="alert-dialog-slide-description"
   >
-    <DialogTitle className='flex-between bg-slate-100 mb-6'>
+    <DialogTitle className='flex-between bg-slate-100 mb-8'>
             <p className='flex flex-1 justify-center font-DanaBold'>مشاهده جزییات </p>
            <p onClick={() => setShowDetailsModal(false)} className='text-rose-500 cursor-pointer flex-center'><Close /></p> 
     </DialogTitle>
