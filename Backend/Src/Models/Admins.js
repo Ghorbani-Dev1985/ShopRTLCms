@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const adminSchema = mongoose.Schema({
+const adminsSchema = mongoose.Schema({
     firstName : {
         type: String,
         require: true,
@@ -30,8 +30,16 @@ const adminSchema = mongoose.Schema({
         type: String,
         maxLength: 100
     },
+    img: {
+        type: String,
+        maxLength: 100
+    },
+    token: {
+        type: String,
+        maxLength: 100
+    },
 })
 
-const Admin = mongoose.model('admins' , adminSchema)
+const Admins = mongoose.model('admins' , adminsSchema)
 
-module.exports = Admin;
+module.exports = Admins;
