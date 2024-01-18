@@ -6,13 +6,16 @@ import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { useDetailsModal } from '../../Contexts/DetailsModalContext';
 import DetailsModal from '../DetailsModal/DetailsModal';
+import { useEditModal } from '../../Contexts/EditModalContext';
+import EditModal from '../EditModal/EditModal'
 
 
 
 
 function ProductsTable() {
   const {showDetailsModal , setShowDetailsModal} = useDetailsModal()
-   console.log(showDetailsModal, setShowDetailsModal)
+  const {showEditModal , setShowEditModal} = useEditModal()
+  console.log(showEditModal)
   const columns = [
     { field: 'id', headerName: 'ردیف', width: 10 },
     { field: 'firstName', headerName: ' عکس', width: 180 },
@@ -47,10 +50,7 @@ function ProductsTable() {
       renderCell: (product) => {
         return (
           <div
-            onClick={() => {
-              setShowUpdateProductDialog(true);
-              setProductID(product.id);
-            }}
+            onClick={() => setShowEditModal(true)}
             className="flex-center cursor-pointer text-sky-500"
           >
             <Edit />
@@ -136,6 +136,9 @@ function ProductsTable() {
       />
   </div>
   <DetailsModal rows={rows}/>
+   <EditModal>
+    sdds
+    </EditModal>
       </>
   )
 }
