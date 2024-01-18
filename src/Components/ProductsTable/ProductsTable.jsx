@@ -1,6 +1,9 @@
 import React from 'react'
 import { DataGrid ,faIR} from '@mui/x-data-grid';
-import { DeleteOutlineOutlined, Edit } from '@mui/icons-material';
+import { DeleteOutlineOutlined, Edit, FindInPage } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 const columns = [
   { field: 'id', headerName: 'ردیف', width: 10 },
@@ -20,7 +23,14 @@ const columns = [
     valueGetter: (params) =>
       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
-  { field: 'lastNdsasasasaadame', headerName: '  ', width: 100 },
+  { field: 'showDetails', headerName: '  مشاهده جزییات', width: 150 , 
+  renderCell: (product) => {
+    return (
+      <Button className='text-emerald-500'>
+              <FindInPage />
+              </Button>
+    );
+  },},
   {
     field: "editAction",
     headerName: "ویرایش",
@@ -57,6 +67,38 @@ const columns = [
     },
   },
 ];
+
+
+const deleteProductHandler = (productID) => {
+  console.log(productID);
+  Swal.fire({
+    title: "برای حذف محصول مطمعن هستید؟",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#f43f5e",
+    cancelButtonColor: "#0ea5e9",
+    confirmButtonText: "تایید",
+    cancelButtonText: "انصراف",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios
+        .delete(`${BaseURL}products/delete`, {
+          headers: {
+            authorization: productID,
+          },
+        })
+        .then((response) => {
+          toast.success("محصول مورد نظر با موفقیت حذف گردید");
+          setGetProductsData((prev) => !prev);
+          console.log(response);
+        })
+        .catch((error) => {
+          toast.error("حذف محصول انجام نشد");
+          console.log(error);
+        });
+    }
+  });
+};
 
 const rows = [
   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },

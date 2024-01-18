@@ -28,7 +28,7 @@
     "recharts": "^2.10.3",
     "styled-components": "^6.1.6",
     "stylis-plugin-rtl": "^2.1.1",
-    "sweetalert2": "^11.10.2",
+    "sweetalert2": "^11.10.3",
     "swiper": "^11.0.5"
   },
   "devDependencies": {
