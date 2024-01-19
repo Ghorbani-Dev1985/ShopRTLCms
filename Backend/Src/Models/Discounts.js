@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-let DiscountSchema = mongoose.Schema({
+let DiscountsSchema = mongoose.Schema({
   discountCode: {
     type: String,
     require: true,
@@ -32,6 +32,6 @@ let DiscountSchema = mongoose.Schema({
   },
 });
 
-let Discounts = mongoose.model("Discounts", DiscountSchema);
+let Discounts = mongoose.model("Discounts", DiscountsSchema);
 
 module.exports = Discounts;
