@@ -10,7 +10,7 @@ function AddNewProduct() {
           <fieldset className="border border-gray-200 rounded-lg p-3">
             <legend className="font-DanaBold text-xl my-6 mx-10 px-3">افزودن محصول جدید</legend>
       <form>
-          <Box className="flex flex-wrap justify-between gap-5 child:w-49p">
+          <Box className="flex flex-wrap justify-between gap-5 child:w-48p">
             <TextField
               autoComplete="off"
               label={

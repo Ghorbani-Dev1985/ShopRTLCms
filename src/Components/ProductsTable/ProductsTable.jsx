@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DataGrid, faIR } from "@mui/x-data-grid";
 import { DeleteOutlineOutlined, Edit, FindInPage } from "@mui/icons-material";
-import { Box, Button, TextField } from "@mui/material";
+import { Alert, Box, Button, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { useDetailsModal } from "../../Contexts/DetailsModalContext";
@@ -10,11 +10,16 @@ import { useEditModal } from "../../Contexts/EditModalContext";
 import EditModal from "../EditModal/EditModal";
 import RtlProvider from "../common/RtlProvider/RtlProvider";
 import useFetch from "../../Hooks/useFetch";
+import { useShowLoading } from "../../Contexts/ShowLoadingContext";
+import UserSkeleton from "../common/UsersSkeleton/UserSkeleton";
+
 
 function ProductsTable() {
   const { showDetailsModal, setShowDetailsModal } = useDetailsModal();
   const { showEditModal, setShowEditModal } = useEditModal();
   const [getProductsData, setGetProductsData] = useState(false);
+  const {isShowLoading , setIsShowLoading} = useShowLoading()
+  console.log(isShowLoading)
   const { datas: products } = useFetch("products/all", "", "");
   const columns = [
     {
@@ -59,11 +64,14 @@ function ProductsTable() {
       },
     },
     {
-      field: "count",
+      field: "countNum",
       headerName: " موجودی",
       width: 70,
       headerAlign: "center",
       align: "center",
+      renderCell: (product) => {
+        return <p className={`${product.row.count > 2 ? "text-emerald-500" : "text-rose-500"}`}>{product.row.count}</p>;
+      },
     },
     {
       field: "showDetails",
@@ -153,8 +161,39 @@ function ProductsTable() {
 
   return (
     <>
+        
+      {
+        isShowLoading ? <UserSkeleton listsToRender={5}/> : 
+        <>
       <div style={{ width: "100%" }}>
-        <DataGrid
+          <h2 className="font-DanaBold my-8 text-2xl">لیست محصولات</h2>
+          {
+            products.length > 1 ?  <DataGrid
+          rows={products.map((product, index) => {
+            return { id: index + 1, ...product };
+          })}
+          getRowId={(product) => product._id}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
+          pageSizeOptions={[5, 10, 25, 100, 200]}
+          checkboxSelection
+        />:  <Alert severity="info">هیچ محصولی تاکنون تعریف نگردیده است</Alert>
+          }
+         
+          </div> 
+        </>
+      }
+
+      {/* {
+        products.length > 1 ?  <div style={{ width: "100%" }}>
+          <h2 className="font-DanaBold my-8 text-2xl">لیست محصولات</h2>
+          {
+            isShowLoading ? <UserSkeleton listsToRender={5}/> : <DataGrid
           rows={products.map((product, index) => {
             return { id: index + 1, ...product };
           })}
@@ -169,7 +208,11 @@ function ProductsTable() {
           pageSizeOptions={[5, 10, 25, 100, 200]}
           checkboxSelection
         />
-      </div>
+          }
+        
+      </div> :  <Alert severity="info">هیچ محصولی تاکنون تعریف نگردیده است</Alert>
+      } */}
+     
       {/* Modals */}
       {/* <DetailsModal rows={products}/> */}
       <EditModal>
