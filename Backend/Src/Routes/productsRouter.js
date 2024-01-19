@@ -1,16 +1,16 @@
 const express = require("express");
 const ProductsModel = require("../Models/Products");
-const productRouter = express.Router();
+const productsRouter = express.Router();
 
 // ** Get All Products APi
-productRouter.get("/all", (req, res) => {
+productsRouter.get("/all", (req, res) => {
   ProductsModel.find({}).then((allProducts) => {
     res.json(allProducts);
   });
 });
 
 // ** Get Main Product Info APi
-productRouter.get("/product", (req, res) => {
+productsRouter.get("/product", (req, res) => {
   let productID = req.headers.authorization;
 
   ProductsModel.findById(`${productID}`).then((mainProductInfo) => {
@@ -19,7 +19,7 @@ productRouter.get("/product", (req, res) => {
 });
 
 // ** Delete Main Product APi
-productRouter.delete("/delete", (req, res) => {
+productsRouter.delete("/delete", (req, res) => {
   let productID = req.headers.authorization;
   ProductsModel.findByIdAndDelete(`${productID}`).then((result) => {
     res.send(true);
@@ -27,7 +27,7 @@ productRouter.delete("/delete", (req, res) => {
 });
 
 // ** Update Main Product APi
-productRouter.put("/update", (req, res) => {
+productsRouter.put("/update", (req, res) => {
   let body = req.body;
   let productID = req.headers.authorization;
   let updateProductInfo = {
@@ -48,7 +48,7 @@ productRouter.put("/update", (req, res) => {
 });
 
 // ** Add New Product APi
-productRouter.post("/newProduct", (req, res) => {
+productsRouter.post("/newProduct", (req, res) => {
   let body = req.body;
   let date = new Date().toLocaleDateString('fa-IR');
   let newProductInfo = {
@@ -70,4 +70,4 @@ productRouter.post("/newProduct", (req, res) => {
   });
 });
 
-module.exports = productRouter;
+module.exports = productsRouter;

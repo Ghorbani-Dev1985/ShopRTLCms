@@ -32,7 +32,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function DetailsModal({rows}) {
     const {showDetailsModal , setShowDetailsModal} = useDetailsModal()
-    console.log(showDetailsModal)
   return (
     <Dialog
     open={showDetailsModal}

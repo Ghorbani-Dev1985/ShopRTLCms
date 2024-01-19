@@ -12,6 +12,7 @@ const usersRouter = require('./Routes/usersRouter')
 
 const app = express()
 app.use(bodyParser.json())
+app.use(cors())
 app.use('/api/comments' , commentsRouter)
 app.use('/api/discounts' , discountsRouter)
 app.use('/api/orders' , ordersRouter)

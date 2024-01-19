@@ -1,11 +1,9 @@
+import React, {useState, useEffect } from 'react'
 import axios from 'axios';
-import React, { useEffect } from 'react'
-import { useState } from 'react'
 import { BaseURL } from '../Utils/Utils';
 
 function useFetch(url , endPoint , dependency) {
   const [datas , setDatas] = useState([])
-  console.log(dependency)
   useEffect(() => {
     axios.get(`${BaseURL}${url}${endPoint ? endPoint : ''}`)
     .then(response => setDatas(response.data))
@@ -13,7 +11,7 @@ function useFetch(url , endPoint , dependency) {
         console.log(error)
     })
     } , [url , dependency]);
-  return {datas }
+  return {datas}
 }
 
 export default useFetch
