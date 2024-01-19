@@ -10,17 +10,22 @@ import { useEditModal } from "../../Contexts/EditModalContext";
 import EditModal from "../EditModal/EditModal";
 import RtlProvider from "../common/RtlProvider/RtlProvider";
 import useFetch from "../../Hooks/useFetch";
+import useDelete from "../../Hooks/useDelete";
 import { useShowLoading } from "../../Contexts/ShowLoadingContext";
 import UserSkeleton from "../common/UsersSkeleton/UserSkeleton";
+import { useShowRealtimeDatas } from "../../Contexts/ShowRealtimeDatasContext";
+import useTitle from "../../Hooks/useTitle";
 
 
 function ProductsTable() {
   const { showDetailsModal, setShowDetailsModal } = useDetailsModal();
   const { showEditModal, setShowEditModal } = useEditModal();
-  const [getProductsData, setGetProductsData] = useState(false);
+  const {showRealtimeDatas} = useShowRealtimeDatas()
   const {isShowLoading , setIsShowLoading} = useShowLoading()
+  const pageTitle = useTitle("محصولات")
+  const [productID , setProductID] = useState("")
   console.log(isShowLoading)
-  const { datas: products } = useFetch("products/all", "", "");
+  const { datas: products } = useFetch("products/all", "");
   const columns = [
     {
       field: "id",
@@ -127,7 +132,7 @@ function ProductsTable() {
       },
     },
   ];
-
+  console.log(showRealtimeDatas)
   const deleteProductHandler = (productID) => {
     console.log(productID);
     Swal.fire({
@@ -140,21 +145,8 @@ function ProductsTable() {
       cancelButtonText: "انصراف",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`${BaseURL}products/delete`, {
-            headers: {
-              authorization: productID,
-            },
-          })
-          .then((response) => {
-            toast.success("محصول مورد نظر با موفقیت حذف گردید");
-            setGetProductsData((prev) => !prev);
-            console.log(response);
-          })
-          .catch((error) => {
-            toast.error("حذف محصول انجام نشد");
-            console.log(error);
-          });
+        const {showRealtimeDatas} = useDelete("products/delete" , productID)
+        console.log(showRealtimeDatas)
       }
     });
   };

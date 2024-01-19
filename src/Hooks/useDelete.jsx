@@ -5,23 +5,27 @@ import { useShowLoading } from '../Contexts/ShowLoadingContext';
 import toast from 'react-hot-toast';
 import { useShowRealtimeDatas } from '../Contexts/ShowRealtimeDatasContext';
 
-function useFetch(url , endPoint ) {
-  const [datas , setDatas] = useState([])
-  const {showRealtimeDatas} = useShowRealtimeDatas()
+function useDelete(url , authorization) {
   const {isShowLoading , setIsShowLoading} = useShowLoading()
-  useEffect(() => {
+  const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
+    console.log(authorization)
      setIsShowLoading(true)
-    axios.get(`${BaseURL}${url}${endPoint ? endPoint : ''}`)
+    axios.delete(`${BaseURL}${url}` , {
+      headers: {
+        authorization: authorization,
+      },
+    })
     .then(response => {
-      setDatas(response.data)
+      toast.success("حذف با موفقیت انجام گردید");
       setIsShowLoading(false)
+      setShowRealTimeDatas((prev) => !prev)
+      console.log(showRealtimeDatas)
     })
     .catch(error => {
         console.log(error)
         toast.error("  خطا در اتصال به سرور ");
     })
-    } , [url , showRealtimeDatas]);
-  return {datas}
+  return {showRealtimeDatas}
 }
 
-export default useFetch
+export default useDelete
