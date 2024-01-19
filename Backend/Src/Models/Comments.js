@@ -5,7 +5,6 @@ let CommentsSchema = mongoose.Schema({
     type: String,
     require: true,
     minLength: 3,
-    require: true,
     trim: true,
   },
   CREATED_AT: {
