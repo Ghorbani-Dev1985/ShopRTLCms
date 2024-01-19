@@ -20,11 +20,10 @@ import useTitle from "../../Hooks/useTitle";
 function ProductsTable() {
   const { showDetailsModal, setShowDetailsModal } = useDetailsModal();
   const { showEditModal, setShowEditModal } = useEditModal();
-  const {showRealtimeDatas} = useShowRealtimeDatas()
+  const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
   const {isShowLoading , setIsShowLoading} = useShowLoading()
   const pageTitle = useTitle("محصولات")
   const [productID , setProductID] = useState("")
-  console.log(isShowLoading)
   const { datas: products } = useFetch("products/all", "");
   const columns = [
     {
@@ -132,7 +131,6 @@ function ProductsTable() {
       },
     },
   ];
-  console.log(showRealtimeDatas)
   const deleteProductHandler = (productID) => {
     console.log(productID);
     Swal.fire({
@@ -145,12 +143,12 @@ function ProductsTable() {
       cancelButtonText: "انصراف",
     }).then((result) => {
       if (result.isConfirmed) {
-        const {showRealtimeDatas} = useDelete("products/delete" , productID)
-        console.log(showRealtimeDatas)
+        const deleteHook = useDelete("products/delete" , productID)
+        setShowRealTimeDatas((prev) => !prev)
       }
     });
   };
-
+  
   return (
     <>
         

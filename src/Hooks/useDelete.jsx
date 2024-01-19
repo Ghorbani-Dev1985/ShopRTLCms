@@ -6,10 +6,6 @@ import toast from 'react-hot-toast';
 import { useShowRealtimeDatas } from '../Contexts/ShowRealtimeDatasContext';
 
 function useDelete(url , authorization) {
-  const {isShowLoading , setIsShowLoading} = useShowLoading()
-  const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
-    console.log(authorization)
-     setIsShowLoading(true)
     axios.delete(`${BaseURL}${url}` , {
       headers: {
         authorization: authorization,
@@ -17,15 +13,12 @@ function useDelete(url , authorization) {
     })
     .then(response => {
       toast.success("حذف با موفقیت انجام گردید");
-      setIsShowLoading(false)
-      setShowRealTimeDatas((prev) => !prev)
-      console.log(showRealtimeDatas)
     })
     .catch(error => {
         console.log(error)
         toast.error("  خطا در اتصال به سرور ");
     })
-  return {showRealtimeDatas}
+  
 }
 
 export default useDelete
