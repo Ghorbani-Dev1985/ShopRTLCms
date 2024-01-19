@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const cors = require("cors");
 
 const adminsRouter = require('./Routes/adminsRouter')
-const xAxiosDataRouter = require('./Routes/xAxiosDataRouter')
+const commentsRouter = require('./Routes/commentsRouter')
 const transactionRouter = require('./Routes/transactionRouter')
 const productsRouter = require('./Routes/productsRouter')
 
@@ -12,7 +12,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 app.use('/api/admins' , adminsRouter)
-app.use('/api/xAxiosData' , xAxiosDataRouter)
+app.use('/api/comments' , commentsRouter)
 app.use('/api/transaction' , transactionRouter)
 app.use('/api/products' , productsRouter)
 
