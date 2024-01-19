@@ -1,5 +1,5 @@
 const express = require('express')
-const UserModel = require('./../Models/Users')
+const UserModel = require('../Models/Users')
 const userRouter = express.Router()
 
 // ** Get All Users APi
@@ -9,14 +9,6 @@ userRouter.get('/all', (req , res) => {
     })
 })
 
-// ** Get Main User Info APi
-userRouter.get('/user', (req , res) => {
-    let userID = req.headers.authorization
-
-    UserModel.findById(`${userID}`).then(mainUserInfo => {
-        res.send(mainUserInfo)
-    })
-})
 
 // ** Delete Main User APi
 userRouter.delete('/delete', (req , res) => {
@@ -33,30 +25,20 @@ userRouter.put('/update', (req , res) => {
     let userUpdateInfo = {
         firstName : body.firstName,
         lastName: body.lastName,
-        title: body.title,
         userName: body.userName,
         password: body.password,
+        phoneNumber: body.phoneNumber,
+        city: body.city,
+        email: body.email,
+        address: body.address,
+        score: body.score,
+        buy: body.buy,
     }
     UserModel.findByIdAndUpdate(`${userID}` , userUpdateInfo).then(result => {
         res.send(true)
     })
 })
 
-// ** Add New User APi
-userRouter.post('/newUser', (req , res) => {
-    let body = req.body
-    let newUserInfo = {
-        firstName : body.firstName,
-        lastName: body.lastName,
-        title: body.title,
-        userName: body.userName,
-        password: body.password,
-    }
-    let addNewUser = new UserModel(newUserInfo)
-    addNewUser.save().then(result => {
-        res.send(true)
-    })
-})
 
 
 

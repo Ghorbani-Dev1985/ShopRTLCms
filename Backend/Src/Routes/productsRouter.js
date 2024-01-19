@@ -30,15 +30,19 @@ productRouter.delete("/delete", (req, res) => {
 productRouter.put("/update", (req, res) => {
   let body = req.body;
   let productID = req.headers.authorization;
-  let userProductInfo = {
+  let updateProductInfo = {
     productTitle: body.productTitle,
+    productDesc: body.productDesc,
     productImg: body.productImg,
+    categoryID: body.categoryID,
     price: body.price,
-    discountPrice: body.discountPrice,
-    stock: body.stock,
-    productType : body.productType
+    count: body.count,
+    popularity: body.popularity,
+    sale: body.sale,
+    colors: body.colors,
+    productUrl: body.productUrl,
   };
-  ProductsModel.findByIdAndUpdate(`${productID}`, userProductInfo).then((result) => {
+  ProductsModel.findByIdAndUpdate(`${productID}`, updateProductInfo).then((result) => {
     res.send(true);
   });
 });
@@ -48,13 +52,17 @@ productRouter.post("/newProduct", (req, res) => {
   let body = req.body;
   let date = new Date().toLocaleDateString('fa-IR');
   let newProductInfo = {
-    productTitle: body.productTitle,
-    productImg: body.productImg,
     CREATED_AT : date,
+    productTitle: body.productTitle,
+    productDesc: body.productDesc,
+    productImg: body.productImg,
+    categoryID: body.categoryID,
     price: body.price,
-    discountPrice: body.discountPrice,
-    stock: body.stock,
-    productType : body.productType
+    count: body.count,
+    popularity: body.popularity,
+    sale: body.sale,
+    colors: body.colors,
+    productUrl: body.productUrl,
   };
   let addNewProduct = new ProductsModel(newProductInfo);
   addNewProduct.save().then((result) => {
