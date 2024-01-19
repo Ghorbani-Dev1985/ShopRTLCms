@@ -18,12 +18,12 @@ import useTitle from "../../Hooks/useTitle";
 
 
 function ProductsTable() {
+  const pageTitle = useTitle("محصولات")
   const { showDetailsModal, setShowDetailsModal } = useDetailsModal();
   const { showEditModal, setShowEditModal } = useEditModal();
   const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
   const {isShowLoading , setIsShowLoading} = useShowLoading()
-  const pageTitle = useTitle("محصولات")
-  const [productID , setProductID] = useState("")
+  const [showProductDetails , setShowProductDetails] = useState({})
   const { datas: products } = useFetch("products/all", "");
   const columns = [
     {
@@ -86,7 +86,11 @@ function ProductsTable() {
       renderCell: (product) => {
         return (
           <Button
-            onClick={() => setShowDetailsModal(true)}
+            onClick={() => {
+              setShowDetailsModal(true)
+              setShowProductDetails(product.row)
+              console.log(showProductDetails)
+            }}
             className="text-emerald-500"
           >
             <FindInPage />
@@ -131,8 +135,21 @@ function ProductsTable() {
       },
     },
   ];
+  const detailsColumns = [
+    { field: 'popularity', headerName: ' محبوبیت ', width: 90 },
+    {
+      field: 'sale',
+      headerName: 'فروش ',
+      width: 90,
+    },
+    {
+      field: 'colors',
+      headerName: ' تعداد رنگ',
+      width: 90,
+    },
+   
+  ];
   const deleteProductHandler = (productID) => {
-    console.log(productID);
     Swal.fire({
       title: "برای حذف محصول مطمعن هستید؟",
       icon: "warning",
@@ -148,7 +165,6 @@ function ProductsTable() {
       }
     });
   };
-  
   return (
     <>
         
@@ -178,33 +194,22 @@ function ProductsTable() {
           </div> 
         </>
       }
-
-      {/* {
-        products.length > 1 ?  <div style={{ width: "100%" }}>
-          <h2 className="font-DanaBold my-8 text-2xl">لیست محصولات</h2>
-          {
-            isShowLoading ? <UserSkeleton listsToRender={5}/> : <DataGrid
-          rows={products.map((product, index) => {
-            return { id: index + 1, ...product };
-          })}
-          getRowId={(product) => product._id}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
-          pageSizeOptions={[5, 10, 25, 100, 200]}
-          checkboxSelection
-        />
-          }
-        
-      </div> :  <Alert severity="info">هیچ محصولی تاکنون تعریف نگردیده است</Alert>
-      } */}
-     
+  
       {/* Modals */}
-      {/* <DetailsModal rows={products}/> */}
+      <DetailsModal> 
+        
+      <img src={`src/assets/Images/Products/${showProductDetails.productImg}`} className='object-fill h-72 rounded-lg' alt='ghorbani-dev.ir' />
+    <div style={{ width: '100%' }}>
+    <DataGrid
+      rows={showProductDetails}
+      getRowId={(showProductDetails) => showProductDetails._id}
+      columns={detailsColumns}
+      localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
+      hideFooterPagination
+      hideFooter
+      />
+           </div>
+      </DetailsModal>
       <EditModal>
         <RtlProvider>
           <form className="relative z-20">
