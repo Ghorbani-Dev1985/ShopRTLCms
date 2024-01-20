@@ -150,7 +150,6 @@ function ProductsTable() {
   ];
   useEffect(() => {
     let filterUpdateProduct = products.find((product) => product._id === updateProductID);
-    console.log(filterUpdateProduct)
     if(filterUpdateProduct){
       setProductTitle(filterUpdateProduct.productTitle)
         setProductImg(filterUpdateProduct.productImg)
@@ -219,7 +218,7 @@ function ProductsTable() {
           <h2 className="font-DanaBold my-8 text-2xl">لیست محصولات</h2>
           {
             products.length > 1 ?  <DataGrid
-          rows={products.map((product, index) => {
+          rows={products.reverse().map((product, index) => {
             return { id: index + 1, ...product };
           })}
           getRowId={(product) => product._id}
