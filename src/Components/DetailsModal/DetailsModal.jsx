@@ -27,7 +27,7 @@ function DetailsModal({children}) {
             <p className='flex flex-1 justify-center font-DanaBold'>مشاهده جزییات </p>
            <p onClick={() => setShowDetailsModal(false)} className='text-rose-500 cursor-pointer flex-center'><Close /></p> 
     </DialogTitle>
-    <DialogContent className='flex-center gap-5'>
+    <DialogContent>
      {children}
     </DialogContent>
   </Dialog>

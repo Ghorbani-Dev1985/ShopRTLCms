@@ -15,7 +15,13 @@ import { useShowLoading } from "../../Contexts/ShowLoadingContext";
 import UserSkeleton from "../common/UsersSkeleton/UserSkeleton";
 import { useShowRealtimeDatas } from "../../Contexts/ShowRealtimeDatasContext";
 import useTitle from "../../Hooks/useTitle";
-
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 function ProductsTable() {
   const pageTitle = useTitle("محصولات")
@@ -135,20 +141,6 @@ function ProductsTable() {
       },
     },
   ];
-  const detailsColumns = [
-    { field: 'popularity', headerName: ' محبوبیت ', width: 90 },
-    {
-      field: 'sale',
-      headerName: 'فروش ',
-      width: 90,
-    },
-    {
-      field: 'colors',
-      headerName: ' تعداد رنگ',
-      width: 90,
-    },
-   
-  ];
   const deleteProductHandler = (productID) => {
     Swal.fire({
       title: "برای حذف محصول مطمعن هستید؟",
@@ -197,19 +189,32 @@ function ProductsTable() {
   
       {/* Modals */}
       <DetailsModal> 
-        
-      <img src={`src/assets/Images/Products/${showProductDetails.productImg}`} className='object-fill h-72 rounded-lg' alt='ghorbani-dev.ir' />
-    <div style={{ width: '100%' }}>
-    <DataGrid
-      rows={showProductDetails}
-      getRowId={(showProductDetails) => showProductDetails._id}
-      columns={detailsColumns}
-      localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
-      hideFooterPagination
-      hideFooter
-      />
-           </div>
-      </DetailsModal>
+        <Box className="flex-center mb-3">
+      <img src={`src/assets/Images/Products/${showProductDetails.productImg}`} className='object-fill h-72 rounded-lg' alt='ghorbani-dev.ir' />       
+        </Box>
+       <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 300 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">محبوبیت</TableCell>
+            <TableCell align="center">فروش(تومان)</TableCell>
+            <TableCell align="center">تعداد رنگ</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+         
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell align="center">{showProductDetails.popularity}</TableCell>
+              <TableCell align="center">{showProductDetails.sale && showProductDetails.sale.toLocaleString()}</TableCell>
+              <TableCell align="center">{showProductDetails.colors}</TableCell>
+            </TableRow>
+       
+        </TableBody>
+      </Table>
+    </TableContainer>
+      </DetailsModal> 
       <EditModal>
         <RtlProvider>
           <form className="relative z-20">
