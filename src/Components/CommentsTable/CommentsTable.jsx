@@ -25,7 +25,8 @@ function CommentsTable() {
   const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
   const {isShowLoading , setIsShowLoading} = useShowLoading()
   const [showCommentDetails , setShowCommentDetails] = useState({})
-  const [updateProductID , setUpdateProductID] = useState()
+  const [updateCommentID , setUpdateCommentID] = useState()
+  const [commentBody , setCommentBody] = useState()
   const { productTitle , setProductTitle , productImg , setProductImg , price , setPrice , count , setCount , popularity , setPopularity , sale , setSale , colors , setColors , productUrl , setProductUrl } = useProducts()
   const { datas: comments } = useFetch("comments/all", "");
   const columns = [
@@ -92,12 +93,12 @@ function CommentsTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (product) => {
+      renderCell: (comment) => {
         return (
           <div
             onClick={() => {
               setShowEditModal(true)
-              setUpdateProductID(product.id)
+              setUpdateCommentID(comment.id)
             }}
             className="flex-center cursor-pointer text-sky-500"
           >
@@ -126,45 +127,21 @@ function CommentsTable() {
       },
     },
   ];
-  // useEffect(() => {
-  //   let filterUpdateProduct = products.find((product) => product._id === updateProductID);
-  //   if(filterUpdateProduct){
-  //     setProductTitle(filterUpdateProduct.productTitle)
-  //       setProductImg(filterUpdateProduct.productImg)
-  //       setPrice(filterUpdateProduct.price)
-  //       setPopularity(filterUpdateProduct.popularity)
-  //       setCount(filterUpdateProduct.count)
-  //       setSale(filterUpdateProduct.sale)
-  //       setColors(filterUpdateProduct.colors)
-  //       setProductUrl(filterUpdateProduct.productUrl)
-  //   }
-  // } , [updateProductID])
-  const updateProductHandler = (event) => {
-    event.preventDefault()
-    console.log(updateProductID)
-    let updateProductInfos = {
-      productTitle,
-      productImg,
-      price,
-      count,
-      popularity,
-      popularity,
-      sale,
-      colors,
-      productUrl
+  useEffect(() => {
+    let filterUpdateComment = comments.find((comment) => comment._id === updateCommentID);
+    if(filterUpdateComment){
+      setCommentBody(filterUpdateComment.commentBody)
     }
-    if(productTitle && productImg && price && count && popularity && sale && colors && productUrl){
-      const Update = useUpdate("products/update" , updateProductInfos ,updateProductID)
+  } , [updateCommentID])
+  const updateCommentHandler = (event) => {
+    event.preventDefault()
+
+    if(commentBody){
+      let updateCommentInfo = {commentBody}
+      const Update = useUpdate("comments/update" , updateCommentInfo ,updateCommentID)
       setShowRealTimeDatas((prev) => !prev)
       setShowEditModal(false)
-      setProductTitle("")
-      setProductImg("")
-      setPrice("")
-      setPopularity("")
-      setCount("")
-      setSale("")
-      setColors("")
-      setProductUrl("")
+      setCommentBody("")
     }else{
       toast.error("لطفا فرم را تکمیل نمایید")
     }
@@ -222,107 +199,16 @@ function CommentsTable() {
       </DetailsModal> 
       <EditModal>
         <RtlProvider>
-          <form onSubmit={(event) => updateProductHandler(event)} className="relative z-20">
+          <form onSubmit={(event) => updateCommentHandler(event)} className="relative z-20">
             <Box className="flex flex-wrap justify-between gap-5">
               <TextField
                 autoComplete="off"
-                value={productTitle}
-                onChange={(event) => setProductTitle(event.target.value)}
+                value={commentBody}
+                multiline
+                onChange={(event) => setCommentBody(event.target.value)}
                 label={
                   <span>
-                    نام محصول <span className="text-rose-500 text-sm">*</span>
-                  </span>
-                }
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                autoComplete="off"
-                type="number"
-                value={price}
-                onChange={(event) => setPrice(event.target.value)}
-                label={
-                  <span>
-                    قیمت <span className="text-rose-500 text-sm">*</span>
-                  </span>
-                }
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                autoComplete="off"
-                type="number"
-                value={count}
-                onChange={(event) => setCount(event.target.value)}
-                label={
-                  <span>
-                    موجودی <span className="text-rose-500 text-sm">*</span>
-                  </span>
-                }
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                autoComplete="off"
-                value={productImg}
-                onChange={(event) => setProductImg(event.target.value)}
-                label={
-                  <span>
-                    لینک عکس <span className="text-rose-500 text-sm">*</span>
-                  </span>
-                }
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                autoComplete="off"
-                type="number"
-                value={popularity}
-                onChange={(event) => setPopularity(event.target.value)}
-                label={
-                  <span>
-                    میزان محبوبیت
-                    <span className="text-rose-500 text-sm">*</span>
-                  </span>
-                }
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                autoComplete="off"
-                type="number"
-                value={sale}
-                onChange={(event) => setSale(event.target.value)}
-                label={
-                  <span>
-                    میزان فروش <span className="text-rose-500 text-sm">*</span>
-                  </span>
-                }
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                autoComplete="off"
-                type="number"
-                value={colors}
-                onChange={(event) => setColors(event.target.value)}
-                label={
-                  <span>
-                    تعداد رنگ بندی
-                    <span className="text-rose-500 text-sm">*</span>
-                  </span>
-                }
-                variant="outlined"
-                size="small"
-              />
-              <TextField
-                autoComplete="off"
-                value={productUrl}
-                onChange={(event) => setProductUrl(event.target.value)}
-                label={
-                  <span>
-                      لینک محصول
-                    <span className="text-rose-500 text-sm">*</span>
+                    متن کامنت <span className="text-rose-500 text-sm">*</span>
                   </span>
                 }
                 variant="outlined"

@@ -22,7 +22,7 @@ commentsRouter.delete("/delete", (req, res) => {
 commentsRouter.put("/update", (req, res) => {
   let body = req.body;
   let commentID = req.headers.authorization;
-  let updateCommentBody = body.commentBody;
+  let updateCommentBody = {commentBody : body.commentBody}
   CommentsModel.findByIdAndUpdate(`${commentID}`, updateCommentBody).then((result) => {
     res.send(true);
   });
