@@ -226,7 +226,6 @@ function CommentsTable() {
       {/* Modals */}
       <DetailsModal> 
        {showCommentDetails.commentBody}
-     
       </DetailsModal> 
       <EditModal>
         <RtlProvider>
