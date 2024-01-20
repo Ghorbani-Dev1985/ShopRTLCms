@@ -1,15 +1,17 @@
 import { Box, Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import RtlProvider from "../common/RtlProvider/RtlProvider";
 import { DoneAll } from "@mui/icons-material";
 import { useProducts } from "../../Contexts/ProductsContext";
 import toast from "react-hot-toast";
 import useInsert from "../../Hooks/useInsert";
 import { useShowRealtimeDatas } from "../../Contexts/ShowRealtimeDatasContext";
+import { useEditModal } from "../../Contexts/EditModalContext";
 
 function AddNewProduct() {
   const { productTitle , setProductTitle , productDesc , setProductDesc , productImg , setProductImg , price , setPrice , count , setCount , popularity , setPopularity , sale , setSale , colors , setColors , productUrl , setProductUrl } = useProducts()
   const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
+  const {showEditModal, setShowEditModal } = useEditModal();
   const insertNewProductHandler = (event) => {
     event.preventDefault()
     if(productTitle && productDesc && productImg && price && count && popularity && sale && colors && productUrl){
@@ -40,16 +42,30 @@ function AddNewProduct() {
        toast.error("لطفا فرم را تکمیل نمایید")
     }
   }
+  useEffect(() => {
+     if(!showEditModal){
+      setProductTitle("")
+        setProductDesc("")
+        setProductImg("")
+        setPrice("")
+        setPopularity("")
+        setCount("")
+        setSale("")
+        setColors("")
+        setProductUrl("")
+     }
+  } , [showEditModal])
   return (
     <>
-        <RtlProvider>
+    {
+      !showEditModal && <RtlProvider>
           <fieldset className="border border-gray-200 rounded-lg p-3">
             <legend className="font-DanaBold text-xl my-6 mx-10 px-3">افزودن محصول جدید</legend>
       <form onSubmit={(event) => insertNewProductHandler(event)}>
           <Box className="flex flex-wrap justify-between gap-5 child:w-48p">
           <TextField
               autoComplete="off"
-              value={productTitle}
+               value={productTitle}
                 onChange={(event) => setProductTitle(event.target.value)}
               label={
                 <span>
@@ -171,6 +187,8 @@ function AddNewProduct() {
       </form>
       </fieldset>
         </RtlProvider>
+    }
+        
     </>
   );
 }
