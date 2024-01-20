@@ -25,16 +25,16 @@ import Paper from '@mui/material/Paper';
 import useUpdate from "../../Hooks/useUpdate";
 import { useProducts } from "../../Contexts/ProductsContext";
 
-function ProductsTable() {
-  const pageTitle = useTitle("محصولات")
+function CommentsTable() {
+  const pageTitle = useTitle("کامنت‌ها")
   const {showDetailsModal, setShowDetailsModal } = useDetailsModal();
   const {showEditModal, setShowEditModal } = useEditModal();
   const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
   const {isShowLoading , setIsShowLoading} = useShowLoading()
-  const [showProductDetails , setShowProductDetails] = useState({})
+  const [showCommentDetails , setShowCommentDetails] = useState({})
   const [updateProductID , setUpdateProductID] = useState()
   const { productTitle , setProductTitle , productImg , setProductImg , price , setPrice , count , setCount , popularity , setPopularity , sale , setSale , colors , setColors , productUrl , setProductUrl } = useProducts()
-  const { datas: products } = useFetch("products/all", "");
+  const { datas: comments } = useFetch("comments/all", "");
   const columns = [
     {
       field: "id",
@@ -50,41 +50,26 @@ function ProductsTable() {
       headerAlign: "center",
       align: "center",
     },
+    { field: "CREATED_HOUR", headerName: " ساعت ایجاد", width: 100 , headerAlign: "center",
+    align: "center",},
     {
-      field: "img",
-      headerName: " عکس",
-      width: 80,
+      field: "reply",
+      headerName: "  وضعیت پاسخ",
+      width: 120,
       headerAlign: "center",
       align: "center",
-      renderCell: (product) => {
-        return (
-          <img
-            src={`src/assets/Images/Products/${product.row.productImg}`}
-            className="object-fill h-16 rounded-lg "
-            alt="ghorbani-dev.ir"
-          />
-        );
-      },
-    },
-    { field: "productTitle", headerName: " نام محصول", width: 260 },
-    {
-      field: "price",
-      headerName: "قیمت (تومان)",
-      width: 110,
-      headerAlign: "center",
-      align: "center",
-      renderCell: (product) => {
-        return product.row.price.toLocaleString();
+      renderCell: (comment) => {
+        return comment.row.isReply ? <p className="bg-emerald-100 text-emerald-500 rounded-lg px-2 py-1">پاسخ داده شده</p> : <p className="bg-amber-50 text-amber-500 px-2 py-1 rounded-lg">بدون پاسخ</p>
       },
     },
     {
-      field: "countNum",
-      headerName: " موجودی",
-      width: 70,
+      field: "accept",
+      headerName: " وضعیت انتشار",
+      width: 120,
       headerAlign: "center",
       align: "center",
-      renderCell: (product) => {
-        return <p className={`${product.row.count > 2 ? "text-emerald-500" : "text-rose-500"}`}>{product.row.count}</p>;
+      renderCell: (comment) => {
+        return comment.row.isAccept ? <p className="bg-sky-100 text-sky-500 rounded-lg px-2 py-1">  منتشر شده</p> : <p className="bg-slate-50 text-slate-500 px-2 py-1 rounded-lg"> منتشر نشده</p>
       },
     },
     {
@@ -93,12 +78,12 @@ function ProductsTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (product) => {
+      renderCell: (comment) => {
         return (
           <Button
             onClick={() => {
               setShowDetailsModal(true)
-              setShowProductDetails(product.row)
+              setShowCommentDetails(comment.row)
               setShowRealTimeDatas((prev) => !prev)
             }}
             className="text-emerald-500"
@@ -148,19 +133,19 @@ function ProductsTable() {
       },
     },
   ];
-  useEffect(() => {
-    let filterUpdateProduct = products.find((product) => product._id === updateProductID);
-    if(filterUpdateProduct){
-      setProductTitle(filterUpdateProduct.productTitle)
-        setProductImg(filterUpdateProduct.productImg)
-        setPrice(filterUpdateProduct.price)
-        setPopularity(filterUpdateProduct.popularity)
-        setCount(filterUpdateProduct.count)
-        setSale(filterUpdateProduct.sale)
-        setColors(filterUpdateProduct.colors)
-        setProductUrl(filterUpdateProduct.productUrl)
-    }
-  } , [updateProductID])
+  // useEffect(() => {
+  //   let filterUpdateProduct = products.find((product) => product._id === updateProductID);
+  //   if(filterUpdateProduct){
+  //     setProductTitle(filterUpdateProduct.productTitle)
+  //       setProductImg(filterUpdateProduct.productImg)
+  //       setPrice(filterUpdateProduct.price)
+  //       setPopularity(filterUpdateProduct.popularity)
+  //       setCount(filterUpdateProduct.count)
+  //       setSale(filterUpdateProduct.sale)
+  //       setColors(filterUpdateProduct.colors)
+  //       setProductUrl(filterUpdateProduct.productUrl)
+  //   }
+  // } , [updateProductID])
   const updateProductHandler = (event) => {
     event.preventDefault()
     console.log(updateProductID)
@@ -215,13 +200,13 @@ function ProductsTable() {
         isShowLoading ? <UserSkeleton listsToRender={5}/> : 
         <>
       <div style={{ width: "100%" }}>
-          <h2 className="font-DanaBold my-8 text-2xl">لیست محصولات</h2>
+          <h2 className="font-DanaBold my-8 text-2xl">لیست کامنت‌ها</h2>
           {
-            products.length > 1 ?  <DataGrid
-          rows={products.reverse().map((product, index) => {
+            comments.length > 1 ?  <DataGrid
+          rows={comments.reverse().map((product, index) => {
             return { id: index + 1, ...product };
           })}
-          getRowId={(product) => product._id}
+          getRowId={(comment) => comment._id}
           columns={columns}
           initialState={{
             pagination: {
@@ -231,7 +216,7 @@ function ProductsTable() {
           localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
           pageSizeOptions={[5, 10, 25, 100, 200]}
           checkboxSelection
-        />:  <Alert severity="info">هیچ محصولی تاکنون تعریف نگردیده است</Alert>
+        />:  <Alert severity="info">هیچ کامنتی تاکنون تعریف نگردیده است</Alert>
           }
          
           </div> 
@@ -240,31 +225,8 @@ function ProductsTable() {
   
       {/* Modals */}
       <DetailsModal> 
-        <Box className="flex-center mb-3">
-      <img src={`src/assets/Images/Products/${showProductDetails.productImg}`} className='object-fill h-72 rounded-lg' alt='ghorbani-dev.ir' />       
-        </Box>
-       <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 300 }} aria-label="simple table">
-        <TableHead>
-          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 1 , borderColor: "#e7e7e7" } }}>
-            <TableCell align="center">محبوبیت</TableCell>
-            <TableCell align="center">فروش(تومان)</TableCell>
-            <TableCell align="center">تعداد رنگ</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-         
-            <TableRow
-              sx={{ '&:last-child td, &:last-child th': { border: 1 , borderColor: "#e7e7e7" } }}
-            >
-              <TableCell align="center">{showProductDetails.popularity}%</TableCell>
-              <TableCell align="center">{showProductDetails.sale && showProductDetails.sale.toLocaleString()}</TableCell>
-              <TableCell align="center">{showProductDetails.colors}</TableCell>
-            </TableRow>
-       
-        </TableBody>
-      </Table>
-    </TableContainer>
+       {showCommentDetails.commentBody}
+     
       </DetailsModal> 
       <EditModal>
         <RtlProvider>
@@ -387,4 +349,4 @@ function ProductsTable() {
   );
 }
 
-export default ProductsTable;
+export default CommentsTable;
