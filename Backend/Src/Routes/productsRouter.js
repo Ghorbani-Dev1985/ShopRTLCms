@@ -32,7 +32,6 @@ productsRouter.put("/update", (req, res) => {
   let productID = req.headers.authorization;
   let updateProductInfo = {
     productTitle: body.productTitle,
-    productDesc: body.productDesc,
     productImg: body.productImg,
     categoryID: body.categoryID,
     price: body.price,

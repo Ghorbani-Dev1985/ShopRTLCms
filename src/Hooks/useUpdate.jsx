@@ -4,14 +4,14 @@ import { BaseURL } from '../Utils/Utils';
 import toast from 'react-hot-toast';
 
 
-function useDelete(url , authorization) {
-    axios.delete(`${BaseURL}${url}` , {
+function useUpdate(url , updateInfos ,authorization) {
+    axios.put(`${BaseURL}${url}` , updateInfos , {
       headers: {
         authorization: authorization,
       },
     })
     .then(response => {
-      toast.success("حذف با موفقیت انجام گردید");
+      toast.success("ویرایش اطلاعات با موفقیت انجام گردید");
     })
     .catch(error => {
         console.log(error)
@@ -20,4 +20,4 @@ function useDelete(url , authorization) {
   
 }
 
-export default useDelete
+export default useUpdate
