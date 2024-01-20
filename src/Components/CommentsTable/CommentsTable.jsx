@@ -15,13 +15,6 @@ import { useShowLoading } from "../../Contexts/ShowLoadingContext";
 import UserSkeleton from "../common/UsersSkeleton/UserSkeleton";
 import { useShowRealtimeDatas } from "../../Contexts/ShowRealtimeDatasContext";
 import useTitle from "../../Hooks/useTitle";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import useUpdate from "../../Hooks/useUpdate";
 import { useProducts } from "../../Contexts/ProductsContext";
 
@@ -119,11 +112,11 @@ function CommentsTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (product) => {
+      renderCell: (comment) => {
         return (
           <div
             onClick={() => {
-              deleteProductHandler(product.id);
+              deleteCommentHandler(comment.id);
             }}
             className="flex-center cursor-pointer text-rose-500"
           >
@@ -177,9 +170,9 @@ function CommentsTable() {
     }
 
   }
-  const deleteProductHandler = (productID) => {
+  const deleteCommentHandler = (commentID) => {
     Swal.fire({
-      title: "برای حذف محصول مطمعن هستید؟",
+      title: "برای حذف کامنت مطمعن هستید؟",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#f43f5e",
@@ -188,7 +181,7 @@ function CommentsTable() {
       cancelButtonText: "انصراف",
     }).then((result) => {
       if (result.isConfirmed) {
-        const deleteHook = useDelete("products/delete" , productID)
+        const deleteHook = useDelete("comments/delete" , commentID)
         setShowRealTimeDatas((prev) => !prev)
       }
     });
