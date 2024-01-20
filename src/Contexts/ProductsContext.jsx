@@ -21,4 +21,4 @@ export const ProductsContextProvider = ({ children }) => {
   );
 };
 
-export const useProductsContext = () => useContext(ProductsContext);
+export const useProducts = () => useContext(ProductsContext);

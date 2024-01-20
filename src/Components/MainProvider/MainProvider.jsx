@@ -3,6 +3,7 @@ import { DetailsModalProvider } from '../../Contexts/DetailsModalContext'
 import {EditModalProvider} from '../../Contexts/EditModalContext'
 import { ShowLoadingProvider } from '../../Contexts/ShowLoadingContext'
 import { ShowRealtimeDatasProvider } from '../../Contexts/ShowRealtimeDatasContext'
+import { ProductsContextProvider } from '../../Contexts/ProductsContext'
 
 function MainProvider({children}) {
   return (
@@ -10,7 +11,9 @@ function MainProvider({children}) {
     <EditModalProvider>
       <ShowLoadingProvider>
         <ShowRealtimeDatasProvider>
-         {children}
+          <ProductsContextProvider>
+            {children}
+          </ProductsContextProvider>
         </ShowRealtimeDatasProvider>
       </ShowLoadingProvider>
     </EditModalProvider>

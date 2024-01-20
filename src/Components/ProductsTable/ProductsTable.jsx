@@ -23,6 +23,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import useUpdate from "../../Hooks/useUpdate";
+import { useProducts } from "../../Contexts/ProductsContext";
 
 function ProductsTable() {
   const pageTitle = useTitle("محصولات")
@@ -32,14 +33,7 @@ function ProductsTable() {
   const {isShowLoading , setIsShowLoading} = useShowLoading()
   const [showProductDetails , setShowProductDetails] = useState({})
   const [updateProductID , setUpdateProductID] = useState()
-  const [productTitle , setProductTitle] = useState("")
-  const [productImg , setProductImg] = useState("")
-  const [price , setPrice] = useState("")
-  const [count , setCount] = useState("")
-  const [popularity , setPopularity] = useState("")
-  const [sale , setSale] = useState("")
-  const [colors , setColors] = useState("")
-  const [productUrl , setProductUrl] = useState("")
+  const { productTitle , setProductTitle , productImg , setProductImg , price , setPrice , count , setCount , popularity , setPopularity , sale , setSale , colors , setColors , productUrl , setProductUrl } = useProducts()
   const { datas: products } = useFetch("products/all", "");
   const columns = [
     {
