@@ -1,14 +1,14 @@
 const express = require("express");
 const HomeStatisticsModel = require("../Models/HomeStatistics");
-const homeStatisticsModelRouter = express.Router();
+const homeStatisticsRouter = express.Router();
 
 
 // ** Get HomeStatistics Info APi
-homeStatisticsModelRouter.get("/", (req, res) => {
-  HomeStatisticsModel.findById({}).then((HomeStatistics) => {
-    res.send(HomeStatistics);
+homeStatisticsRouter.get("/all", (req, res) => {
+  HomeStatisticsModel.find({}).then((homeStatistics) => {
+    res.send(homeStatistics);
   });
 });
 
 
-module.exports = homeStatisticsModelRouter;
+module.exports = homeStatisticsRouter;
