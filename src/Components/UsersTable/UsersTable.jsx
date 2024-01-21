@@ -125,11 +125,11 @@ function UsersTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (comment) => {
+      renderCell: (user) => {
         return (
           <div
             onClick={() => {
-              deleteCommentHandler(comment.id);
+              deleteUserHandler(user.id);
             }}
             className="flex-center cursor-pointer text-rose-500"
           >
@@ -162,9 +162,9 @@ function UsersTable() {
       toast.error("لطفا فرم را تکمیل نمایید");
     }
   };
-  const deleteCommentHandler = (commentID) => {
+  const deleteUserHandler = (userID) => {
     Swal.fire({
-      title: "برای حذف کامنت مطمعن هستید؟",
+      title: "برای حذف کاربر مطمعن هستید؟",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#f43f5e",
@@ -173,7 +173,7 @@ function UsersTable() {
       cancelButtonText: "انصراف",
     }).then((result) => {
       if (result.isConfirmed) {
-        const deleteHook = useDelete("comments/delete", commentID);
+        const deleteHook = useDelete("users/delete", userID);
         setShowRealTimeDatas((prev) => !prev);
       }
     });
