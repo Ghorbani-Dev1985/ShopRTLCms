@@ -37,19 +37,17 @@ function UsersTable() {
   const { showEditModal, setShowEditModal } = useEditModal();
   const { showRealtimeDatas, setShowRealTimeDatas } = useShowRealtimeDatas();
   const { isShowLoading, setIsShowLoading } = useShowLoading();
-  const [showCommentDetails, setShowCommentDetails] = useState({});
-  const [updateUserID, setUpdateUserID] = useState();
-  const [commentBody, setCommentBody] = useState();
-  const [firstName , setFirstName] = useState()
-  const [lastName , setLastName] = useState()
-  const [userName , setUserName] = useState()
-  const [password , setPassword] = useState()
-  const [phoneNumber , setPhoneNumber] = useState()
-  const [city , setCity] = useState()
-  const [email , setEmail] = useState()
-  const [address , setAddress] = useState()
-  const [score , setScore] = useState()
-  const [isAcceptComment, setIsAcceptComment] = useState(false);
+  const [showUserDetails, setShowUserDetails] = useState({});
+  const [updateUserID, setUpdateUserID] = useState("")
+  const [firstName , setFirstName] = useState("")
+  const [lastName , setLastName] = useState("")
+  const [userName , setUserName] = useState("")
+  const [password , setPassword] = useState("")
+  const [phoneNumber , setPhoneNumber] = useState("")
+  const [city , setCity] = useState("")
+  const [email , setEmail] = useState("")
+  const [address , setAddress] = useState("")
+  const [score , setScore] = useState("")
   const { datas: users } = useFetch("users/all", "");
   const columns = [
     {
@@ -100,12 +98,12 @@ function UsersTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (comment) => {
+      renderCell: (user) => {
         return (
           <Button
             onClick={() => {
               setShowDetailsModal(true);
-              setShowCommentDetails(comment.row);
+              setShowUserDetails(user.row);
               setShowRealTimeDatas((prev) => !prev);
             }}
             className="text-emerald-500"
@@ -121,12 +119,12 @@ function UsersTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (comment) => {
+      renderCell: (user) => {
         return (
           <div
             onClick={() => {
               setShowEditModal(true);
-              setUpdateUserID(comment.id);
+              setUpdateUserID(user.id);
             }}
             className="flex-center cursor-pointer text-sky-500"
           >
@@ -155,6 +153,7 @@ function UsersTable() {
       },
     },
   ];
+
   useEffect(() => {
     let filterUpdateUser = users.find((user) => user._id === updateUserID);
     if (filterUpdateUser) {
@@ -169,7 +168,8 @@ function UsersTable() {
       setScore(filterUpdateUser.score)
     }
   }, [updateUserID]);
-  const updateCommentHandler = (event) => {
+
+  const updateUserHandler = (event) => {
     event.preventDefault();
 
     if (firstName && lastName && userName && password && phoneNumber && city && email && address && score) {
@@ -262,10 +262,10 @@ function UsersTable() {
             <TableRow
               sx={{ '&:last-child td, &:last-child th': { border: 1 , borderColor: "#e7e7e7" } }}
             >
-              <TableCell align="center">{showCommentDetails.city}</TableCell>
-              <TableCell align="center">{showCommentDetails.address}</TableCell>
-              <TableCell align="center">{showCommentDetails.score}</TableCell>
-              <TableCell align="center">{showCommentDetails.buy && showCommentDetails.buy.toLocaleString()}</TableCell>
+              <TableCell align="center">{showUserDetails.city}</TableCell>
+              <TableCell align="center">{showUserDetails.address}</TableCell>
+              <TableCell align="center">{showUserDetails.score}</TableCell>
+              <TableCell align="center">{showUserDetails.buy && showUserDetails.buy.toLocaleString()}</TableCell>
             </TableRow>
         </TableBody>
       </Table>
@@ -274,7 +274,7 @@ function UsersTable() {
       <EditModal>
         <RtlProvider>
           <form
-            onSubmit={(event) => updateCommentHandler(event)}
+            onSubmit={(event) => updateUserHandler(event)}
             className="relative z-20"
           >
             <Box className="flex flex-wrap justify-between gap-5">
@@ -329,6 +329,7 @@ function UsersTable() {
                <TextField
                 autoComplete="off"
                 value={phoneNumber}
+                type="number"
                 onChange={(event) => setPhoneNumber(event.target.value)}
                 label={
                   <span>

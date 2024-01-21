@@ -32,7 +32,6 @@ userRouter.put('/update', (req , res) => {
         email: body.email,
         address: body.address,
         score: body.score,
-        buy: body.buy,
     }
     UserModel.findByIdAndUpdate(`${userID}` , userUpdateInfo).then(result => {
         res.send(true)
