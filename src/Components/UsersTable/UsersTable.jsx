@@ -22,7 +22,14 @@ import UserSkeleton from "../common/UsersSkeleton/UserSkeleton";
 import { useShowRealtimeDatas } from "../../Contexts/ShowRealtimeDatasContext";
 import useTitle from "../../Hooks/useTitle";
 import useUpdate from "../../Hooks/useUpdate";
-import { useProducts } from "../../Contexts/ProductsContext";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 
 function UsersTable() {
   const pageTitle = useTitle("کاربر‌ها");
@@ -209,7 +216,30 @@ function UsersTable() {
       )}
 
       {/* Modals */}
-      <DetailsModal>{showCommentDetails.commentBody}</DetailsModal>
+      <DetailsModal>
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 300 }} aria-label="simple table">
+        <TableHead>
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 1 , borderColor: "#e7e7e7" } }}>
+            <TableCell align="center">شهر</TableCell>
+            <TableCell align="center">آدرس</TableCell>
+            <TableCell align="center">امتیاز </TableCell>
+            <TableCell align="center">خرید(تومان) </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 1 , borderColor: "#e7e7e7" } }}
+            >
+              <TableCell align="center">{showCommentDetails.city}</TableCell>
+              <TableCell align="center">{showCommentDetails.address}</TableCell>
+              <TableCell align="center">{showCommentDetails.score}</TableCell>
+              <TableCell align="center">{showCommentDetails.buy && showCommentDetails.buy.toLocaleString()}</TableCell>
+            </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+      </DetailsModal>
       <EditModal>
         <RtlProvider>
           <form
