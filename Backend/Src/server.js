@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
 const cors = require("cors");
 
+const homeStatisticsRouter = require('./Routes/homeStatisticsRouter')
 const commentsRouter = require('./Routes/commentsRouter')
 const discountsRouter = require('./Routes/discountsRouter')
 const ordersRouter = require('./Routes/ordersRouter')
@@ -13,6 +14,7 @@ const usersRouter = require('./Routes/usersRouter')
 const app = express()
 app.use(bodyParser.json())
 app.use(cors())
+app.use('/api/homeStatistics' , homeStatisticsRouter)
 app.use('/api/comments' , commentsRouter)
 app.use('/api/discounts' , discountsRouter)
 app.use('/api/orders' , ordersRouter)
