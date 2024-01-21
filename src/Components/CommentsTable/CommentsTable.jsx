@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, faIR } from "@mui/x-data-grid";
-import { DeleteOutlineOutlined, Edit, FindInPage } from "@mui/icons-material";
+import { DeleteOutlineOutlined, Edit, FindInPage, TaskAlt } from "@mui/icons-material";
 import { Alert, Box, Button, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -27,7 +27,7 @@ function CommentsTable() {
   const [showCommentDetails , setShowCommentDetails] = useState({})
   const [updateCommentID , setUpdateCommentID] = useState()
   const [commentBody , setCommentBody] = useState()
-  const { productTitle , setProductTitle , productImg , setProductImg , price , setPrice , count , setCount , popularity , setPopularity , sale , setSale , colors , setColors , productUrl , setProductUrl } = useProducts()
+  const [isAccept , setIsAccept] = useState(true)
   const { datas: comments } = useFetch("comments/all", "");
   const columns = [
     {
@@ -84,6 +84,26 @@ function CommentsTable() {
           >
             <FindInPage />
           </Button>
+        );
+      },
+    },
+    {
+      field: "acceptAction",
+      headerName: "تایید",
+      width: 80,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (comment) => {
+        return (
+          comment.row.isAccept ? <TaskAlt className="text-gray-400 opacity-45"/> :  <div
+            onClick={() => {         
+              acceptCommentHandler(comment.id);
+            }}
+            className="flex-center cursor-pointer text-emerald-500"
+          >
+            <TaskAlt />
+          </div>
+         
         );
       },
     },
@@ -146,6 +166,23 @@ function CommentsTable() {
       toast.error("لطفا فرم را تکمیل نمایید")
     }
 
+  }
+  const acceptCommentHandler = (commentID) => {
+    Swal.fire({
+      title: "برای تایید کامنت مطمعن هستید؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f43f5e",
+      cancelButtonColor: "#0ea5e9",
+      confirmButtonText: "تایید",
+      cancelButtonText: "انصراف",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let acceptComment = {isAccept}
+        const update = useUpdate("comments/accept" , acceptComment , commentID)
+        setShowRealTimeDatas((prev) => !prev)
+      }
+    });
   }
   const deleteCommentHandler = (commentID) => {
     Swal.fire({

@@ -28,4 +28,14 @@ commentsRouter.put("/update", (req, res) => {
   });
 });
 
+// ** Accept Comment APi
+commentsRouter.put("/accept", (req, res) => {
+  let body = req.body;
+  let commentID = req.headers.authorization;
+  let isAcceptComment = {isAccept : body.isAccept}
+  CommentsModel.findByIdAndUpdate(`${commentID}`, isAcceptComment).then((result) => {
+    res.send(true);
+  });
+});
+
 module.exports = commentsRouter;
