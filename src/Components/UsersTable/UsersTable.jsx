@@ -162,43 +162,6 @@ function UsersTable() {
       toast.error("لطفا فرم را تکمیل نمایید");
     }
   };
-  const rejectCommentHandler = (commentID, isAccept) => {
-    console.log(isAccept);
-    Swal.fire({
-      title: "برای رد کامنت مطمعن هستید؟",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#f43f5e",
-      cancelButtonColor: "#0ea5e9",
-      confirmButtonText: "تایید",
-      cancelButtonText: "انصراف",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setIsAcceptComment(!isAccept);
-        console.log(isAcceptComment);
-        let rejectComment = { isAcceptComment };
-        const update = useUpdate("comments/reject", false, commentID);
-        setShowRealTimeDatas((prev) => !prev);
-      }
-    });
-  };
-  const acceptCommentHandler = (commentID, isAccept) => {
-    console.log(isAcceptComment);
-    Swal.fire({
-      title: "برای تایید کامنت مطمعن هستید؟",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#f43f5e",
-      cancelButtonColor: "#0ea5e9",
-      confirmButtonText: "تایید",
-      cancelButtonText: "انصراف",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const update = useUpdate("comments/accept", true, commentID);
-        setShowRealTimeDatas((prev) => !prev);
-      }
-    });
-  };
   const deleteCommentHandler = (commentID) => {
     Swal.fire({
       title: "برای حذف کامنت مطمعن هستید؟",
