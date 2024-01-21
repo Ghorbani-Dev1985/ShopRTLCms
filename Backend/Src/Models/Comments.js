@@ -37,7 +37,7 @@ let CommentsSchema = mongoose.Schema({
   },
   isAccept: {
     type: Boolean,
-    require: true,
+    require: false
   }
 });
 

@@ -32,8 +32,18 @@ commentsRouter.put("/update", (req, res) => {
 commentsRouter.put("/accept", (req, res) => {
   let body = req.body;
   let commentID = req.headers.authorization;
-  let isAcceptComment = {isAccept : body.isAccept}
+  let isAcceptComment = {isAccept : true}
   CommentsModel.findByIdAndUpdate(`${commentID}`, isAcceptComment).then((result) => {
+    res.send(true);
+  });
+});
+
+// ** Reject Comment APi
+commentsRouter.put("/reject", (req, res) => {
+  let body = req.body;
+  let commentID = req.headers.authorization;
+  let isRejectComment = {isAccept : false}
+  CommentsModel.findByIdAndUpdate(`${commentID}`, isRejectComment).then((result) => {
     res.send(true);
   });
 });

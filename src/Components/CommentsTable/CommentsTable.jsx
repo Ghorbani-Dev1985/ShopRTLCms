@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, faIR } from "@mui/x-data-grid";
-import { DeleteOutlineOutlined, Edit, FindInPage, TaskAlt } from "@mui/icons-material";
+import { DeleteOutlineOutlined, Edit, FindInPage, HideSource, TaskAlt } from "@mui/icons-material";
 import { Alert, Box, Button, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -27,7 +27,7 @@ function CommentsTable() {
   const [showCommentDetails , setShowCommentDetails] = useState({})
   const [updateCommentID , setUpdateCommentID] = useState()
   const [commentBody , setCommentBody] = useState()
-  const [isAccept , setIsAccept] = useState(true)
+  const [isAcceptComment , setIsAcceptComment] = useState(false)
   const { datas: comments } = useFetch("comments/all", "");
   const columns = [
     {
@@ -96,14 +96,36 @@ function CommentsTable() {
       renderCell: (comment) => {
         return (
           comment.row.isAccept ? <TaskAlt className="text-gray-400 opacity-45"/> :  <div
-            onClick={() => {         
-              acceptCommentHandler(comment.id);
+           onClick={() => {         
+              acceptCommentHandler(comment.id , comment.row.isAccept);
+              setIsAcceptComment(true)
             }}
             className="flex-center cursor-pointer text-emerald-500"
           >
             <TaskAlt />
           </div>
          
+        );
+      },
+    },
+    {
+      field: "rejectAction",
+      headerName: "رد کامنت",
+      width: 80,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (comment) => {
+        return (
+          comment.row.isAccept ? <div
+            onClick={() => {         
+              rejectCommentHandler(comment.id , comment.row.isAccept);
+
+            }}
+            className="flex-center cursor-pointer text-rose-500"
+          >
+            <HideSource />
+          </div>
+         : <HideSource className="text-gray-400 opacity-45"/>
         );
       },
     },
@@ -167,8 +189,29 @@ function CommentsTable() {
     }
 
   }
-  const acceptCommentHandler = (commentID) => {
+  const rejectCommentHandler = (commentID , isAccept) => {
+    console.log(isAccept)
     Swal.fire({
+      title: "برای رد کامنت مطمعن هستید؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f43f5e",
+      cancelButtonColor: "#0ea5e9",
+      confirmButtonText: "تایید",
+      cancelButtonText: "انصراف",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsAcceptComment(!isAccept)
+        console.log(isAcceptComment)
+        let rejectComment = {isAcceptComment}
+        const update = useUpdate("comments/reject" , false ,commentID)
+        setShowRealTimeDatas((prev) => !prev)
+      }
+    });
+  }
+  const acceptCommentHandler = (commentID , isAccept) => {
+    console.log(isAcceptComment)
+   Swal.fire({
       title: "برای تایید کامنت مطمعن هستید؟",
       icon: "warning",
       showCancelButton: true,
@@ -178,8 +221,7 @@ function CommentsTable() {
       cancelButtonText: "انصراف",
     }).then((result) => {
       if (result.isConfirmed) {
-        let acceptComment = {isAccept}
-        const update = useUpdate("comments/accept" , acceptComment , commentID)
+        const update = useUpdate("comments/accept" , true , commentID)
         setShowRealTimeDatas((prev) => !prev)
       }
     });
@@ -222,7 +264,6 @@ function CommentsTable() {
           }}
           localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
           pageSizeOptions={[5, 10, 25, 100, 200]}
-          checkboxSelection
         />:  <Alert severity="info">هیچ کامنتی تاکنون تعریف نگردیده است</Alert>
           }
          

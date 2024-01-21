@@ -230,7 +230,6 @@ function ProductsTable() {
           }}
           localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
           pageSizeOptions={[5, 10, 25, 100, 200]}
-          checkboxSelection
         />:  <Alert severity="info">هیچ محصولی تاکنون تعریف نگردیده است</Alert>
           }
          
