@@ -351,6 +351,21 @@ function UsersTable() {
                 variant="outlined"
                 size="small"
               />
+                <TextField
+                autoComplete="off"
+                multiline
+                rows={3}
+                value={address}
+                onChange={(event) => setAddress(event.target.value)}
+                className="w-full"
+                label={
+                  <span>
+                    آدرس <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
                <TextField
                 autoComplete="off"
                 value={email}
