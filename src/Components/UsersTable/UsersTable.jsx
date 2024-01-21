@@ -40,6 +40,15 @@ function UsersTable() {
   const [showCommentDetails, setShowCommentDetails] = useState({});
   const [updateUserID, setUpdateUserID] = useState();
   const [commentBody, setCommentBody] = useState();
+  const [firstName , setFirstName] = useState()
+  const [lastName , setLastName] = useState()
+  const [userName , setUserName] = useState()
+  const [password , setPassword] = useState()
+  const [phoneNumber , setPhoneNumber] = useState()
+  const [city , setCity] = useState()
+  const [email , setEmail] = useState()
+  const [address , setAddress] = useState()
+  const [score , setScore] = useState()
   const [isAcceptComment, setIsAcceptComment] = useState(false);
   const { datas: users } = useFetch("users/all", "");
   const columns = [
@@ -149,22 +158,44 @@ function UsersTable() {
   useEffect(() => {
     let filterUpdateUser = users.find((user) => user._id === updateUserID);
     if (filterUpdateUser) {
-      setCommentBody(filterUpdateUser.commentBody);
+      setFirstName(filterUpdateUser.firstName)
+      setLastName(filterUpdateUser.lastName)
+      setUserName(filterUpdateUser.userName)
+      setPassword(filterUpdateUser.password)
+      setPhoneNumber(filterUpdateUser.phoneNumber)
+      setCity(filterUpdateUser.city)
+      setEmail(filterUpdateUser.email)
+      setAddress(filterUpdateUser.address)
+      setScore(filterUpdateUser.score)
     }
   }, [updateUserID]);
   const updateCommentHandler = (event) => {
     event.preventDefault();
 
-    if (commentBody) {
-      let updateCommentInfo = { commentBody };
-      const Update = useUpdate(
-        "comments/update",
-        updateCommentInfo,
-        updateUserID
-      );
+    if (firstName && lastName && userName && password && phoneNumber && city && email && address && score) {
+      let updateUserInfo = { 
+        firstName,
+        lastName,
+        userName,
+        password,
+        phoneNumber,
+        city,
+        email,
+        address,
+        score 
+      };
+      const Update = useUpdate("users/update", updateUserInfo, updateUserID );
       setShowRealTimeDatas((prev) => !prev);
       setShowEditModal(false);
-      setCommentBody("");
+      setFirstName("")
+      setLastName("")
+      setUserName("")
+      setPassword("")
+      setPhoneNumber("")
+      setCity("")
+      setEmail("")
+      setAddress("")
+      setScore("")
     } else {
       toast.error("لطفا فرم را تکمیل نمایید");
     }
@@ -249,12 +280,96 @@ function UsersTable() {
             <Box className="flex flex-wrap justify-between gap-5">
               <TextField
                 autoComplete="off"
-                value={commentBody}
-                multiline
-                onChange={(event) => setCommentBody(event.target.value)}
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
                 label={
                   <span>
-                    متن کامنت <span className="text-rose-500 text-sm">*</span>
+                     نام <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+               <TextField
+                autoComplete="off"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+                label={
+                  <span>
+                     نام خانوادگی <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+               <TextField
+                autoComplete="off"
+                value={userName}
+                onChange={(event) => setUserName(event.target.value)}
+                label={
+                  <span>
+                     نام کاربری <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+               <TextField
+                autoComplete="off"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                label={
+                  <span>
+                     کلمه عبور <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+               <TextField
+                autoComplete="off"
+                value={phoneNumber}
+                onChange={(event) => setPhoneNumber(event.target.value)}
+                label={
+                  <span>
+                     تلفن همراه <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+               <TextField
+                autoComplete="off"
+                value={city}
+                onChange={(event) => setCity(event.target.value)}
+                label={
+                  <span>
+                    شهر <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+               <TextField
+                autoComplete="off"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                label={
+                  <span>
+                     ایمیل <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+               <TextField
+                autoComplete="off"
+                type="number"
+                value={score}
+                onChange={(event) => setScore(event.target.value)}
+                label={
+                  <span>
+                     امتیاز <span className="text-rose-500 text-sm">*</span>
                   </span>
                 }
                 variant="outlined"
