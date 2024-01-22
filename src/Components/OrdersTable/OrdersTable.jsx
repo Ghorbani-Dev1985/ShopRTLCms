@@ -33,8 +33,11 @@ function OrdersTable() {
   const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
   const {isShowLoading , setIsShowLoading} = useShowLoading()
   const [showOrderDetails , setShowOrderDetails] = useState({})
-  const [updateCommentID , setUpdateCommentID] = useState()
-  const [commentBody , setCommentBody] = useState()
+  const [updateOrderID , setUpdateOrderID] = useState("")
+  const [popularity , setPopularity] = useState("")
+  const [price , setPrice] = useState("")
+  const [sale , setSale] = useState("")
+  const [saleCount , setSaleCount] = useState("")
   const [isAcceptComment , setIsAcceptComment] = useState(false)
   const { datas: orders } = useFetch("orders/all", "");
   const columns = [
@@ -103,12 +106,12 @@ function OrdersTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (comment) => {
+      renderCell: (order) => {
         return (
           <div
             onClick={() => {
               setShowEditModal(true)
-              setUpdateCommentID(comment.id)
+             setUpdateOrderID(order.id)
             }}
             className="flex-center cursor-pointer text-sky-500"
           >
@@ -138,20 +141,30 @@ function OrdersTable() {
     },
   ];
   useEffect(() => {
-    let filterUpdateComment = orders.find((comment) => comment._id === updateCommentID);
-    if(filterUpdateComment){
-      setCommentBody(filterUpdateComment.commentBody)
+    let filterUpdateOrder = orders.find((order) => order._id === updateOrderID);
+    if(filterUpdateOrder){
+      setPopularity(filterUpdateOrder.popularity)
+      setPrice(filterUpdateOrder.price)
+      setSale(filterUpdateOrder.sale)
+      setSaleCount(filterUpdateOrder.saleCount)
     }
-  } , [updateCommentID])
-  const updateCommentHandler = (event) => {
+  } , [updateOrderID])
+  const updateOrderHandler = (event) => {
     event.preventDefault()
-
-    if(commentBody){
-      let updateCommentInfo = {commentBody}
-      const Update = useUpdate("orders/update" , updateCommentInfo ,updateCommentID)
+    if(popularity && price && sale && saleCount){
+      let updateOrderInfo = {
+        popularity,
+        price,
+        sale,
+        saleCount
+      }
+      const Update = useUpdate("orders/update" , updateOrderInfo ,updateOrderID)
       setShowRealTimeDatas((prev) => !prev)
       setShowEditModal(false)
-      setCommentBody("")
+      setPopularity("")
+      setPrice("")
+      setSale("")
+      setSaleCount("")
     }else{
       toast.error("لطفا فرم را تکمیل نمایید")
     }
@@ -227,16 +240,55 @@ function OrdersTable() {
       </DetailsModal> 
       <EditModal>
         <RtlProvider>
-          <form onSubmit={(event) => updateCommentHandler(event)} className="relative z-20">
+          <form onSubmit={(event) => updateOrderHandler(event)} className="relative z-20">
             <Box className="flex flex-wrap justify-between gap-5">
               <TextField
                 autoComplete="off"
-                value={commentBody}
-                multiline
-                onChange={(event) => setCommentBody(event.target.value)}
+                value={popularity}
+                type="number"
+                onChange={(event) => setPopularity(event.target.value)}
                 label={
                   <span>
-                    متن کامنت <span className="text-rose-500 text-sm">*</span>
+                     محبوبیت <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+              <TextField
+                autoComplete="off"
+                value={price}
+                type="number"
+                onChange={(event) => setPrice(event.target.value)}
+                label={
+                  <span>
+                     مبلغ <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+              <TextField
+                autoComplete="off"
+                value={sale}
+                type="number"
+                onChange={(event) => setSale(event.target.value)}
+                label={
+                  <span>
+                     مجموع خرید <span className="text-rose-500 text-sm">*</span>
+                  </span>
+                }
+                variant="outlined"
+                size="small"
+              />
+              <TextField
+                autoComplete="off"
+                value={saleCount}
+                type="number"
+                onChange={(event) => setSaleCount(event.target.value)}
+                label={
+                  <span>
+                     دفعات خرید <span className="text-rose-500 text-sm">*</span>
                   </span>
                 }
                 variant="outlined"

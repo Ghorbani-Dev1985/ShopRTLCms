@@ -22,7 +22,12 @@ ordersRouter.delete("/delete", (req, res) => {
 ordersRouter.put("/update", (req, res) => {
   let body = req.body;
   let orderID = req.headers.authorization;
-  let updateOrder = body.isActive;
+  let updateOrder = {
+    popularity : body.popularity,
+    price : body.price,
+    sale: body.sale,
+    saleCount : body.saleCount
+  };
   OrdersModel.findByIdAndUpdate(`${orderID}`, updateOrder).then((result) => {
     res.send(true);
   });
