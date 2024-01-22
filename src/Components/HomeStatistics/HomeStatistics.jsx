@@ -32,7 +32,6 @@ export default HomeStatistics
 
 
 const HomeStatistic = ({icon,  title , number , percent  }) => {
-  console.log( number)
     return(
       <Box className="bg-emerald-50/50 shadow-round rounded-3xl p-2 relative">
         <p className='absolute flex-center text-white bg-orange-400 size-12 rounded-full left-3 -top-6'>{icon}</p>
