@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
 let OrdersSchema = mongoose.Schema({
-  userID: {
-    type: Number,
-    require: true,
-    trim: true,
-  },
   CREATED_AT: {
     type: String,
     require: true,
@@ -38,11 +33,6 @@ let OrdersSchema = mongoose.Schema({
     type: Number,
     maxLength: 50,
     require: true,
-  },
-  count: {
-    type: Number,
-    maxLength: 50,
-    trim: true,
   },
   saleCount: {
     type: Number,
