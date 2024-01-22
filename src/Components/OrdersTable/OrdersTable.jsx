@@ -57,7 +57,7 @@ function OrdersTable() {
     { field: "orderPrice", headerName: "   مبلغ(تومان)", width: 100 , headerAlign: "center",
     align: "center",
     renderCell: (order) => {
-      return order.row.price.toLocaleString()
+      return order.row.price && order.row.price.toLocaleString()
     },
   },
     { field: "discountStatus", headerName: "  میزان تخفیف", width: 100 , headerAlign: "center",
@@ -123,11 +123,11 @@ function OrdersTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (comment) => {
+      renderCell: (order) => {
         return (
           <div
             onClick={() => {
-              deleteCommentHandler(comment.id);
+              deleteOrderHandler(order.id);
             }}
             className="flex-center cursor-pointer text-rose-500"
           >
@@ -157,9 +157,9 @@ function OrdersTable() {
     }
 
   }
-  const deleteCommentHandler = (commentID) => {
+  const deleteOrderHandler = (orderID) => {
     Swal.fire({
-      title: "برای حذف کامنت مطمعن هستید؟",
+      title: "برای حذف سفارش مطمعن هستید؟",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#f43f5e",
@@ -168,7 +168,7 @@ function OrdersTable() {
       cancelButtonText: "انصراف",
     }).then((result) => {
       if (result.isConfirmed) {
-        const deleteHook = useDelete("orders/delete" , commentID)
+        const deleteHook = useDelete("orders/delete" , orderID)
         setShowRealTimeDatas((prev) => !prev)
       }
     });
