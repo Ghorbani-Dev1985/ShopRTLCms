@@ -16,7 +16,15 @@ import UserSkeleton from "../common/UsersSkeleton/UserSkeleton";
 import { useShowRealtimeDatas } from "../../Contexts/ShowRealtimeDatasContext";
 import useTitle from "../../Hooks/useTitle";
 import useUpdate from "../../Hooks/useUpdate";
-import { useProducts } from "../../Contexts/ProductsContext";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+
 
 function OrdersTable() {
   const pageTitle = useTitle("سفارش‌ها")
@@ -24,7 +32,7 @@ function OrdersTable() {
   const {showEditModal, setShowEditModal } = useEditModal();
   const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
   const {isShowLoading , setIsShowLoading} = useShowLoading()
-  const [showCommentDetails , setShowCommentDetails] = useState({})
+  const [showOrderDetails , setShowOrderDetails] = useState({})
   const [updateCommentID , setUpdateCommentID] = useState()
   const [commentBody , setCommentBody] = useState()
   const [isAcceptComment , setIsAcceptComment] = useState(false)
@@ -74,12 +82,12 @@ function OrdersTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (comment) => {
+      renderCell: (order) => {
         return (
           <Button
             onClick={() => {
               setShowDetailsModal(true)
-              setShowCommentDetails(comment.row)
+              setShowOrderDetails(order.row)
               setShowRealTimeDatas((prev) => !prev)
             }}
             className="text-emerald-500"
@@ -196,7 +204,26 @@ function OrdersTable() {
   
       {/* Modals */}
       <DetailsModal> 
-       {showCommentDetails.commentBody}
+      <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 300 }} aria-label="simple table">
+        <TableHead>
+          <TableRow sx={{ '&:last-child td, &:last-child th': { border: 1 , borderColor: "#e7e7e7" } }}>
+            <TableCell align="center">محبوبیت</TableCell>
+            <TableCell align="center">دفعات خرید </TableCell>
+            <TableCell align="center">مجموع(تومان) </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+            <TableRow
+              sx={{ '&:last-child td, &:last-child th': { border: 1 , borderColor: "#e7e7e7" } }}
+            >
+              <TableCell align="center">{showOrderDetails.popularity}</TableCell>
+              <TableCell align="center">{showOrderDetails.saleCount}</TableCell>
+              <TableCell align="center">{showOrderDetails.sale && showOrderDetails.sale.toLocaleString()}</TableCell>
+            </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
       </DetailsModal> 
       <EditModal>
         <RtlProvider>
