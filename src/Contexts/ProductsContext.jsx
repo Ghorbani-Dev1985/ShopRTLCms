@@ -3,13 +3,13 @@ import { createContext, useContext, useState } from "react";
 const ProductsContext = createContext();
 
 export const ProductsContextProvider = ({ children }) => {
-  const [productTitle , setProductTitle] = useState("")
+  const [productTitle , setProductTitle] = useState([])
   const [productDesc , setProductDesc] = useState("")
   const [productImg , setProductImg] = useState("")
   const [price , setPrice] = useState("")
   const [count , setCount] = useState("")
   const [popularity , setPopularity] = useState("")
-  const [sale , setSale] = useState("")
+  const [sale , setSale] = useState([])
   const [colors , setColors] = useState("")
   const [productUrl , setProductUrl] = useState("")
   return (

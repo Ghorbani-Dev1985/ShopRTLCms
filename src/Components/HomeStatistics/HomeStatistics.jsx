@@ -8,19 +8,17 @@ import { LocalShipping, MonetizationOn, Payment, ShowChart } from '@mui/icons-ma
 
 function HomeStatistics() {
     const {datas : homeStatistics} = useFetch("homeStatistics/all", "")
-
-   console.log(homeStatistics)
     return (
         <Box className="grid grid-cols-1 md:grid-cols-4 gap-12">
         {
-          homeStatistics.map(({totalPrice , totalSale , totalShipping , totalIncome , pricePercent ,salePercent ,shippingPercent , incomePercent}) => {
+          homeStatistics.map(({_id, totalPrice , totalSale , totalShipping , totalIncome , pricePercent ,salePercent ,shippingPercent , incomePercent}) => {
             return(
-              <>
+              <React.Fragment key={_id}>
               <HomeStatistic icon={<MonetizationOn />} title="قیمت" number={totalPrice} percent={pricePercent} />
               <HomeStatistic icon={<ShowChart />} title="فروش" number={totalSale} percent={salePercent} />
               <HomeStatistic icon={<Payment />} title="درآمد" number={totalIncome} percent={incomePercent} />
               <HomeStatistic icon={<LocalShipping />} title="هزینه ارسال" number={totalShipping} percent={shippingPercent} />
-              </>
+              </React.Fragment>
             )
           })
         }

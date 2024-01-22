@@ -4,12 +4,11 @@ import {ResponsiveContainer , LineChart , Line , XAxis , CartesianGrid, Tooltip}
 
 
 function Chart({key, title , data , dataKey , grid}) {
-  console.log(data)
   return (
     <Box key={key} className="my-8 shadow-round p-2 rounded-lg">
       <h3 className='my-3'>{title}</h3>
       {
-        data.length ? <ResponsiveContainer width="100%" aspect={4}>
+        data.length ? <ResponsiveContainer width="100%" aspect={3}>
         <LineChart data={data} >
             <XAxis dataKey="name" stroke='#5550bd'/>
             <Line type="monotone" dataKey={dataKey} stroke='#5550bd'/>
