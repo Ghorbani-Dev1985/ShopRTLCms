@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, faIR } from "@mui/x-data-grid";
-import { DeleteOutlineOutlined, Edit, FindInPage, HideSource, TaskAlt } from "@mui/icons-material";
+import { DeleteOutlineOutlined, Edit, FindInPage, TaskAlt , RemoveDone, DoneAll} from "@mui/icons-material";
 import { Alert, Box, Button, TextField } from "@mui/material";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -75,17 +75,16 @@ function DiscountsTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (comment) => {
+      renderCell: (discount) => {
         return (
-          comment.row.isAccept ? <TaskAlt className="text-gray-400 opacity-45"/> :  <div
+          discount.row.isActive ? <DoneAll className="text-gray-400 opacity-45"/> : <div
            onClick={() => {         
-              enableHandler(comment.id , comment.row.isAccept);
-              setIsAcceptComment(true)
+              enableDiscountHandler(discount.id);
             }}
             className="flex-center cursor-pointer text-emerald-500"
           >
-            <TaskAlt />
-          </div>
+            <DoneAll />
+          </div> 
          
         );
       },
@@ -96,18 +95,18 @@ function DiscountsTable() {
       width: 100,
       headerAlign: "center",
       align: "center",
-      renderCell: (comment) => {
+      renderCell: (discount) => {
         return (
-          comment.row.isAccept ? <div
+          discount.row.isActive ? <div
             onClick={() => {         
-              rejectCommentHandler(comment.id , comment.row.isAccept);
+              disableDiscountHandler(discount.id);
 
             }}
             className="flex-center cursor-pointer text-rose-500"
           >
-            <HideSource />
+            <RemoveDone />
           </div>
-         : <HideSource className="text-gray-400 opacity-45"/>
+        : <RemoveDone className="text-gray-400 opacity-45"/>
         );
       },
     },
@@ -132,35 +131,37 @@ function DiscountsTable() {
       },
     },
   ];
-  useEffect(() => {
-    let filterUpdateOrder = discounts.find((discount) => discount._id === updateOrderID);
-    if(filterUpdateOrder){
-      setPopularity(filterUpdateOrder.popularity)
-      setPrice(filterUpdateOrder.price)
-      setSale(filterUpdateOrder.sale)
-      setSaleCount(filterUpdateOrder.saleCount)
-    }
-  } , [updateOrderID])
-  const updateOrderHandler = (event) => {
-    event.preventDefault()
-    if(popularity && price && sale && saleCount){
-      let updateOrderInfo = {
-        popularity,
-        price,
-        sale,
-        saleCount
+  const enableDiscountHandler = (discountID ) => {
+   Swal.fire({
+      title: "برای فعالسازی مطمعن هستید؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f43f5e",
+      cancelButtonColor: "#0ea5e9",
+      confirmButtonText: "تایید",
+      cancelButtonText: "انصراف",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const update = useUpdate("discounts/enable" , true , discountID)
+        setShowRealTimeDatas((prev) => !prev)
       }
-      const Update = useUpdate("orders/update" , updateOrderInfo ,updateOrderID)
-      setShowRealTimeDatas((prev) => !prev)
-      setShowEditModal(false)
-      setPopularity("")
-      setPrice("")
-      setSale("")
-      setSaleCount("")
-    }else{
-      toast.error("لطفا فرم را تکمیل نمایید")
-    }
-
+    });
+  }
+  const disableDiscountHandler = (discountID) => {
+    Swal.fire({
+      title: "برای غیرفعالسازی  مطمعن هستید؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f43f5e",
+      cancelButtonColor: "#0ea5e9",
+      confirmButtonText: "تایید",
+      cancelButtonText: "انصراف",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const update = useUpdate("discounts/disable" , false ,discountID)
+        setShowRealTimeDatas((prev) => !prev)
+      }
+    });
   }
   const deleteDiscountHandler = (discountID) => {
     Swal.fire({

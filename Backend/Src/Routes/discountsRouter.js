@@ -22,7 +22,7 @@ discountsRouter.delete("/delete", (req, res) => {
 discountsRouter.put("/enable", (req, res) => {
   let body = req.body;
   let discountID = req.headers.authorization;
-  let isEnableDiscount = {isAccept : true}
+  let isEnableDiscount = {isActive : true}
   DiscountsModel.findByIdAndUpdate(`${discountID}`, isEnableDiscount).then((result) => {
     res.send(true);
   });
@@ -32,7 +32,7 @@ discountsRouter.put("/enable", (req, res) => {
 discountsRouter.put("/disable", (req, res) => {
   let body = req.body;
   let discountID = req.headers.authorization;
-  let isDisableDiscount = {isAccept : false}
+  let isDisableDiscount = {isActive : false}
   DiscountsModel.findByIdAndUpdate(`${discountID}`, isDisableDiscount).then((result) => {
     res.send(true);
   });
