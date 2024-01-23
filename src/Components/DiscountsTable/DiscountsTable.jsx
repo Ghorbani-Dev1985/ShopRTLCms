@@ -26,8 +26,8 @@ import Paper from '@mui/material/Paper';
 
 
 
-function OrdersTable() {
-  const pageTitle = useTitle("سفارش‌ها")
+function DiscountsTable() {
+  const pageTitle = useTitle("تخفیف‌ها")
   const {showDetailsModal, setShowDetailsModal } = useDetailsModal();
   const {showEditModal, setShowEditModal } = useEditModal();
   const {showRealtimeDatas , setShowRealTimeDatas} = useShowRealtimeDatas()
@@ -38,7 +38,8 @@ function OrdersTable() {
   const [price , setPrice] = useState("")
   const [sale , setSale] = useState("")
   const [saleCount , setSaleCount] = useState("")
-  const { datas: orders } = useFetch("orders/all", "");
+  const { datas: discounts } = useFetch("discounts/all", "");
+  console.log(discounts)
   const columns = [
     {
       field: "id",
@@ -54,49 +55,18 @@ function OrdersTable() {
       headerAlign: "center",
       align: "center",
     },
-    { field: "CREATED_HOUR", headerName: " ساعت ایجاد", width: 100 , headerAlign: "center",
+       { field: "discountCode", headerName: "  کد تخفیف", width: 100 , headerAlign: "center",
     align: "center",},
-    { field: "orderPrice", headerName: "   مبلغ(تومان)", width: 100 , headerAlign: "center",
-    align: "center",
-    renderCell: (order) => {
-      return order.row.price && order.row.price.toLocaleString()
-    },
-  },
-    { field: "discountStatus", headerName: "  میزان تخفیف", width: 100 , headerAlign: "center",
-    align: "center",
-    renderCell: (order) => {
-      return order.row.discount > 0 ? order.row.discount : "بدون تخفیف" 
-    },
-   },
+    { field: "percent", headerName: "  درصد", width: 100 , headerAlign: "center",
+    align: "center",},
     {
       field: "status",
       headerName: "  وضعیت",
       width: 120,
       headerAlign: "center",
       align: "center",
-      renderCell: (order) => {
-        return order.row.isActive ? <p className="bg-emerald-100 text-emerald-500 rounded-lg px-2 py-1">  موفق</p> : <p className="bg-amber-50 text-amber-500 px-2 py-1 rounded-lg"> پرداخت نشده</p>
-      },
-    },
-    {
-      field: "showDetails",
-      headerName: "  جزییات",
-      width: 80,
-      headerAlign: "center",
-      align: "center",
-      renderCell: (order) => {
-        return (
-          <Button
-            onClick={() => {
-              setShowDetailsModal(true)
-              setShowOrderDetails(order.row)
-              setShowRealTimeDatas((prev) => !prev)
-            }}
-            className="text-emerald-500"
-          >
-            <FindInPage />
-          </Button>
-        );
+      renderCell: (discount) => {
+        return discount.row.isActive ? <p className="bg-emerald-100 text-emerald-500 rounded-lg px-2 py-1">  فعال</p> : <p className="bg-amber-50 text-amber-500 px-2 py-1 rounded-lg">  غیرفعال</p>
       },
     },
     {
@@ -105,12 +75,12 @@ function OrdersTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (order) => {
+      renderCell: (discount) => {
         return (
           <div
             onClick={() => {
               setShowEditModal(true)
-             setUpdateOrderID(order.id)
+             setUpdateOrderID(discount.id)
             }}
             className="flex-center cursor-pointer text-sky-500"
           >
@@ -125,11 +95,11 @@ function OrdersTable() {
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (order) => {
+      renderCell: (discount) => {
         return (
           <div
             onClick={() => {
-              deleteOrderHandler(order.id);
+              deleteDiscountHandler(discount.id);
             }}
             className="flex-center cursor-pointer text-rose-500"
           >
@@ -140,7 +110,7 @@ function OrdersTable() {
     },
   ];
   useEffect(() => {
-    let filterUpdateOrder = orders.find((order) => order._id === updateOrderID);
+    let filterUpdateOrder = discounts.find((discount) => discount._id === updateOrderID);
     if(filterUpdateOrder){
       setPopularity(filterUpdateOrder.popularity)
       setPrice(filterUpdateOrder.price)
@@ -169,22 +139,7 @@ function OrdersTable() {
     }
 
   }
-  const deleteOrderHandler = (orderID) => {
-    Swal.fire({
-      title: "برای حذف سفارش مطمعن هستید؟",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#f43f5e",
-      cancelButtonColor: "#0ea5e9",
-      confirmButtonText: "تایید",
-      cancelButtonText: "انصراف",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const deleteHook = useDelete("orders/delete" , orderID)
-        setShowRealTimeDatas((prev) => !prev)
-      }
-    });
-  };
+
   return (
     <>
         
@@ -192,13 +147,13 @@ function OrdersTable() {
         isShowLoading ? <UserSkeleton listsToRender={5}/> : 
         <>
       <div style={{ width: "100%" }}>
-          <h2 className="font-DanaBold my-8 text-2xl">لیست سفارش‌ها</h2>
+          <h2 className="font-DanaBold my-8 text-2xl">لیست تخفیف‌ها</h2>
           {
-            orders.length > 1 ?  <DataGrid
-          rows={orders.reverse().map((order, index) => {
-            return { id: index + 1, ...order };
+            discounts.length > 1 ?  <DataGrid
+          rows={discounts.reverse().map((discount, index) => {
+            return { id: index + 1, ...discount };
           })}
-          getRowId={(order) => order._id}
+          getRowId={(discount) => discount._id}
           columns={columns}
           initialState={{
             pagination: {
@@ -207,7 +162,7 @@ function OrdersTable() {
           }}
           localeText={faIR.components.MuiDataGrid.defaultProps.localeText}
           pageSizeOptions={[5, 10, 25, 100, 200]}
-        />:  <Alert severity="info">هیچ سفارشی تاکنون ثبت نگردیده است</Alert>
+        />:  <Alert severity="info">هیچ کد تخفیفی تاکنون ثبت نگردیده است</Alert>
           }
          
           </div> 
@@ -306,4 +261,4 @@ function OrdersTable() {
   );
 }
 
-export default OrdersTable;
+export default DiscountsTable;
