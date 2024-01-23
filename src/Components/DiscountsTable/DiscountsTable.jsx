@@ -70,25 +70,48 @@ function DiscountsTable() {
       },
     },
     {
-      field: "editAction",
-      headerName: "ویرایش",
+      field: "enable",
+      headerName: "فعالسازی",
       width: 80,
       headerAlign: "center",
       align: "center",
-      renderCell: (discount) => {
+      renderCell: (comment) => {
         return (
-          <div
-            onClick={() => {
-              setShowEditModal(true)
-             setUpdateOrderID(discount.id)
+          comment.row.isAccept ? <TaskAlt className="text-gray-400 opacity-45"/> :  <div
+           onClick={() => {         
+              enableHandler(comment.id , comment.row.isAccept);
+              setIsAcceptComment(true)
             }}
-            className="flex-center cursor-pointer text-sky-500"
+            className="flex-center cursor-pointer text-emerald-500"
           >
-            <Edit />
+            <TaskAlt />
           </div>
+         
         );
       },
     },
+    {
+      field: "disable",
+      headerName: " غیر فعالسازی",
+      width: 100,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (comment) => {
+        return (
+          comment.row.isAccept ? <div
+            onClick={() => {         
+              rejectCommentHandler(comment.id , comment.row.isAccept);
+
+            }}
+            className="flex-center cursor-pointer text-rose-500"
+          >
+            <HideSource />
+          </div>
+         : <HideSource className="text-gray-400 opacity-45"/>
+        );
+      },
+    },
+
     {
       field: "deleteAction",
       headerName: "حذف",

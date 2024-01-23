@@ -18,12 +18,22 @@ discountsRouter.delete("/delete", (req, res) => {
   });
 });
 
-// ** Update Discount APi
-discountsRouter.put("/update", (req, res) => {
+// ** Enable Discount APi
+discountsRouter.put("/enable", (req, res) => {
   let body = req.body;
   let discountID = req.headers.authorization;
-  let updateDiscount = body.isActive;
-  DiscountsModel.findByIdAndUpdate(`${discountID}`, updateDiscount).then((result) => {
+  let isEnableDiscount = {isAccept : true}
+  DiscountsModel.findByIdAndUpdate(`${discountID}`, isEnableDiscount).then((result) => {
+    res.send(true);
+  });
+});
+
+// ** Disable Discount APi
+discountsRouter.put("/disable", (req, res) => {
+  let body = req.body;
+  let discountID = req.headers.authorization;
+  let isDisableDiscount = {isAccept : false}
+  DiscountsModel.findByIdAndUpdate(`${discountID}`, isDisableDiscount).then((result) => {
     res.send(true);
   });
 });
