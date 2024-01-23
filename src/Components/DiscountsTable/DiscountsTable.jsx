@@ -139,7 +139,22 @@ function DiscountsTable() {
     }
 
   }
-
+  const deleteDiscountHandler = (discountID) => {
+    Swal.fire({
+      title: "برای حذف کد تخفیف مطمعن هستید؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#f43f5e",
+      cancelButtonColor: "#0ea5e9",
+      confirmButtonText: "تایید",
+      cancelButtonText: "انصراف",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const deleteHook = useDelete("discounts/delete" , discountID)
+        setShowRealTimeDatas((prev) => !prev)
+      }
+    });
+  };
   return (
     <>
         
