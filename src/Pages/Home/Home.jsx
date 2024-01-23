@@ -5,8 +5,10 @@ import useFetch from "../../Hooks/useFetch";
 import { Box } from "@mui/material";
 import { useProducts } from "../../Contexts/ProductsContext";
 import PieChartCommon from "../../Components/common/PieChartCommon/PieChartCommon";
+import useTitle from "../../Hooks/useTitle";
 
 function HomePage() {
+  const pageTitle = useTitle("نمای کلی")
   const {datas : yearlyIncome} = useFetch("yearlyIncome/all", "")
   const { datas: products } = useFetch("products/all", "");
 
