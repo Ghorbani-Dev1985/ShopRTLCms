@@ -6,15 +6,14 @@
 </p>
 
 # Screen Cast
- <video controls>
-<source src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/3e8dd7bb-681e-4bf2-99a1-4d9a145217d6" autoplay loop type="video/webm" >
-<source src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/f7fbc1e4-9dff-4940-a87f-38246a3cc1ff" autoplay loop type="video/webm" >
-<source src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/6a35b90d-fec7-40f2-8135-f80535c4d097" autoplay loop type="video/webm" >
-<source src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/68bdf8bc-4ffe-409f-8172-c9ed9265a3ed" autoplay loop type="video/webm" >
-<source src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/0abc0326-4bf3-43c7-acef-95dbf38fe471" autoplay loop type="video/webm" >
-<source src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/7c3e1d5f-9a18-403c-b0b8-c28533165382" autoplay loop type="video/webm" >
 
- </video>
+<video src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/3e8dd7bb-681e-4bf2-99a1-4d9a145217d6" autoplay loop ></video>
+<video src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/f7fbc1e4-9dff-4940-a87f-38246a3cc1ff" autoplay loop ></video>
+<video src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/6a35b90d-fec7-40f2-8135-f80535c4d097" autoplay loop ></video>
+<video src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/68bdf8bc-4ffe-409f-8172-c9ed9265a3ed" autoplay loop ></video>
+<video src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/0abc0326-4bf3-43c7-acef-95dbf38fe471" autoplay loop ></video>
+<video src="https://github.com/Ghorbani-Dev1985/ShopRTLCms/assets/127734745/7c3e1d5f-9a18-403c-b0b8-c28533165382" autoplay loop ></video>
+
 
 
 ---
